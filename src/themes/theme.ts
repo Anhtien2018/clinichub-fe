@@ -13,7 +13,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Gothic, Arial !important",
+    fontFamily: "GoSan, Arial !important",
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,

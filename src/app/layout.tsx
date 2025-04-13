@@ -3,6 +3,9 @@
 import "@/styles/globals.css";
 import { theme } from "@/themes/theme";
 import { ThemeProvider } from "@mui/material";
+import ProgressBar from "@/components/ProgessLine/ProgessLine";
+import { ClientApolloProvider } from "@/apollo/ApolloProvider";
+import { UserProvider } from "@/zustand/UserProvider";
 
 export default function RootLayout({
   children,
@@ -12,7 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ClientApolloProvider>
+          <UserProvider>
+            <ProgressBar />
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </UserProvider>
+        </ClientApolloProvider>
       </body>
     </html>
   );

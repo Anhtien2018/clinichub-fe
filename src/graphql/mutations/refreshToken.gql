@@ -1,0 +1,8 @@
+mutation refreshToken($refreshTokenInput: RefreshTokenInput!){
+    refreshToken(refreshTokenInput: $refreshTokenInput){
+        accessToken
+        deviceId
+        refreshToken
+        role
+    }
+}

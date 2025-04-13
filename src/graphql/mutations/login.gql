@@ -1,0 +1,8 @@
+mutation login($loginInput: LoginInput!){
+    login(loginInput: $loginInput){
+        accessToken
+        deviceId
+        refreshToken
+        role
+    }
+}

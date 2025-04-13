@@ -1,0 +1,335 @@
+type AdminDeviceInfoResponse {
+  deviceId: String!
+  deviceInfo: String
+  lastUsedAt: DateTime!
+}
+
+input AdminLoginInput {
+  deviceId: String
+  deviceInfo: String
+  email: String!
+  password: String!
+}
+
+type AdminLoginResponse {
+  accessToken: String
+  deviceId: String
+  refreshToken: String
+  role: String
+}
+
+input AdminRefreshTokenInput {
+  deviceId: String!
+  refreshToken: String!
+}
+
+"""
+The role of the admin user
+"""
+enum AdminRole {
+  ADMIN
+  SUPER_ADMIN
+  SYSTEM_MANAGER
+}
+
+"""
+Administrative user model
+"""
+type AdminUser {
+  avatarDetail: Media
+  avatarId: String
+  createdAt: DateTime!
+  email: String!
+  firstName: String
+  id: ID!
+  isActive: Boolean!
+  lastName: String
+  phoneNumber: String
+  phonePrefix: String
+  role: String!
+  updatedAt: DateTime!
+  username: String!
+}
+
+input CreateAdminUserDto {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  phoneNumber: String!
+  phonePrefix: String! = "+84"
+  role: String!
+  username: String!
+}
+
+input CreateTenantInput {
+  code: String!
+  description: String
+  isActive: Boolean!
+  name: String!
+}
+
+input CreateUserDto {
+  email: String!
+  fullName: String
+  password: String!
+  phoneNumber: String
+  phonePrefix: String = "+84"
+  role: UserRole
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type DeviceInfoResponse {
+  deviceId: String!
+  deviceInfo: String
+  lastUsedAt: DateTime!
+}
+
+input ForgotPasswordDto {
+  email: String!
+}
+
+input LoginInput {
+  deviceId: String
+  deviceInfo: String
+  email: String!
+  password: String!
+}
+
+type LoginResponse {
+  accessToken: String!
+  deviceId: String
+  refreshToken: String!
+  role: String!
+}
+
+type Media {
+  createdAt: DateTime!
+  filename: String!
+  id: ID!
+  metadata: String
+  mimetype: String!
+  originalname: String!
+  path: String!
+  purpose: String
+  size: Float!
+  type: String!
+  updatedAt: DateTime!
+  uploaderId: String
+  uploaderType: UploaderType
+  url: String!
+}
+
+type MediaWithParsedMetadata {
+  createdAt: DateTime!
+  filename: String!
+  id: ID!
+  metadata: String
+  mimetype: String!
+  originalname: String!
+  parsedMetadata: String
+  path: String!
+  purpose: String
+  size: Float!
+  type: String!
+  updatedAt: DateTime!
+  uploaderId: String
+  uploaderType: UploaderType
+  url: String!
+}
+
+type Mutation {
+  admin_adminCreateUser(input: CreateAdminUserDto!): AdminUser!
+  admin_adminDeleteUser(id: String!): Boolean!
+  admin_adminForgotPassword(input: ForgotPasswordDto!): Boolean!
+  admin_adminLogin(adminLoginInput: AdminLoginInput!): AdminLoginResponse!
+  admin_adminLogout(refreshToken: String!): Boolean!
+  admin_adminLogoutAll: Boolean!
+  admin_adminRefreshToken(
+    refreshTokenInput: AdminRefreshTokenInput!
+  ): AdminLoginResponse!
+  admin_adminResetPassword(input: VerifyOtpDto!): Boolean!
+  admin_adminUpdateUser(id: String!, input: UpdateAdminUserDto!): AdminUser!
+  admin_createUser(input: CreateUserDto!): User!
+  admin_removeAdminDevice(deviceId: String!): Boolean!
+  admin_removeUser(id: ID!): Boolean!
+  admin_updateUser(id: ID!, input: UpdateUserDto!): User!
+  admin_updateUserRole(role: UserRole!, userId: ID!): User!
+  createTenant(input: CreateTenantInput!): Tenant!
+  createUser(input: CreateUserDto!): User!
+  deleteMedia(id: ID!): Boolean!
+  forgotPassword(input: UserForgotPasswordDto!): Boolean!
+  login(loginInput: LoginInput!): LoginResponse!
+  logout(refreshToken: String!): Boolean!
+  logoutAll: Boolean!
+  refreshToken(refreshTokenInput: RefreshTokenInput!): LoginResponse!
+  removeDevice(deviceId: String!): Boolean!
+  removeTenant(id: String!): Boolean!
+  removeUser(id: ID!): Boolean!
+  resetPassword(input: UserVerifyOtpDto!): Boolean!
+  updateProfile(input: UpdateUserDto!): User!
+  updateTenant(id: String!, input: UpdateTenantInput!): Tenant!
+  updateUser(id: ID!, input: UpdateUserDto!): User!
+  updateUserRole(role: UserRole!, userId: ID!): User!
+  uploadMedia(input: UploadInput!): Media!
+  userForgotPassword(input: UserForgotPasswordDto!): Boolean!
+  userResetPassword(input: UserVerifyOtpDto!): Boolean!
+}
+
+type PageInfo {
+  currentPage: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  total: Int!
+  totalPages: Int!
+}
+
+type PaginatedAdminUsers {
+  items: [AdminUser!]!
+  pageInfo: PageInfo!
+}
+
+type PaginatedMedia {
+  items: [Media!]!
+  pageInfo: PageInfo!
+}
+
+type PaginatedUsers {
+  items: [User!]!
+  pageInfo: PageInfo!
+}
+
+input PaginationInput {
+  limit: Int = 10
+  page: Int = 1
+  search: String
+}
+
+type Query {
+  admin_adminMe: AdminUser!
+  admin_adminUser(id: String!): AdminUser!
+  admin_adminUsers(pagination: PaginationInput): PaginatedAdminUsers!
+  admin_getAdminDevices: [AdminDeviceInfoResponse!]!
+  admin_user(id: ID!): User!
+  admin_users(pagination: PaginationInput): PaginatedUsers!
+  admin_usersByRole(
+    pagination: PaginationInput
+    role: UserRole!
+  ): PaginatedUsers!
+  getDeviceById(deviceId: String!): DeviceInfoResponse!
+  getUserDevices: [DeviceInfoResponse!]!
+  me: User!
+  media(pagination: PaginationInput): PaginatedMedia!
+  mediaById(id: ID!): MediaWithParsedMetadata!
+  mediaByUser(pagination: PaginationInput, userId: ID!): PaginatedMedia!
+  tenant(id: String!): Tenant!
+  tenants: [Tenant!]!
+  user(id: ID!): User!
+  users(pagination: PaginationInput): PaginatedUsers!
+  usersByRole(pagination: PaginationInput, role: UserRole!): PaginatedUsers!
+}
+
+input RefreshTokenInput {
+  deviceId: String
+  deviceInfo: String
+  refreshToken: String!
+}
+
+type Tenant {
+  code: String!
+  createdAt: DateTime!
+  description: String
+  id: String!
+  isActive: Boolean!
+  name: String!
+  updatedAt: DateTime!
+}
+
+input UpdateAdminUserDto {
+  avatarId: String
+  email: String
+  firstName: String
+  isActive: Boolean
+  lastName: String
+  password: String
+  phoneNumber: String
+  phonePrefix: String
+  role: AdminRole
+  username: String
+}
+
+input UpdateTenantInput {
+  code: String
+  description: String
+  isActive: Boolean
+  name: String
+}
+
+input UpdateUserDto {
+  email: String
+  fullName: String
+  password: String
+  phoneNumber: String
+  phonePrefix: String
+  role: UserRole
+}
+
+input UploadInput {
+  """
+  File to upload (accepts multipart form or base64)
+  """
+  file: String!
+  metadata: String
+  purpose: String
+}
+
+"""
+Type of uploader: user or admin
+"""
+enum UploaderType {
+  ADMIN
+  USER
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  fullName: String
+  id: ID!
+  lastLoginAt: DateTime
+  phoneNumber: String
+  phonePrefix: String
+  role: UserRole!
+  updatedAt: DateTime!
+}
+
+input UserForgotPasswordDto {
+  email: String!
+}
+
+"""
+The role of the user
+"""
+enum UserRole {
+  CLINIC_ADMIN
+  CUSTOMER
+  DOCTOR
+  RECEPTIONIST
+  TENANT_ADMIN
+}
+
+input UserVerifyOtpDto {
+  email: String!
+  newPassword: String!
+  otp: String!
+}
+
+input VerifyOtpDto {
+  email: String!
+  newPassword: String!
+  otp: String!
+}

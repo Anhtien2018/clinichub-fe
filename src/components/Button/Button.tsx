@@ -5,7 +5,6 @@ interface ButtonCustomProps {
   text: string;
   onClick?: () => void;
   variant?: "text" | "outlined" | "contained";
-  color?: "primary" | "secondary" | "error" | "info" | "success" | "warning";
   disabled?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
@@ -13,31 +12,37 @@ interface ButtonCustomProps {
   endIcon?: React.ReactNode;
   sx?: object;
   sxText?: object;
+  type?: "button" | "submit" | "reset";
 }
 
 const ButtonCustom: React.FC<ButtonCustomProps> = ({
   text,
   onClick,
   variant = "outlined",
-  color = "primary",
   disabled = false,
   loading = false,
   fullWidth = false,
   startIcon,
+  type = "button",
   endIcon,
   sx,
   sxText,
 }) => {
   return (
     <Button
+      type={type}
       onClick={onClick}
       variant={variant}
-      color={color}
       disabled={disabled || loading}
       fullWidth={fullWidth}
       startIcon={!loading ? startIcon : null}
       endIcon={!loading ? endIcon : null}
-      sx={{ textTransform: "none", ...sx }}
+      sx={{
+        "&:hover": { opacity: 0.8 },
+        border: "none",
+        textTransform: "none",
+        ...sx,
+      }}
     >
       <Typography sx={{ ...sxText }}>
         {loading ? <CircularProgress size={20} color="inherit" /> : text}

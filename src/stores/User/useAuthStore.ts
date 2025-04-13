@@ -1,20 +1,21 @@
+import { User } from "@/graphql/type.interface";
 import { create } from "zustand";
 
 interface AuthState {
-  user?: undefined;
-  error?: string | undefined;
+  user?: User;
+  error?: string;
   isLoading: boolean;
 }
 
 interface Action {
-  setUser: (me: undefined) => void;
+  setUser: (me: User) => void;
   setIsLoading: (isLoading: boolean) => void;
   setError: (err: string) => void;
 }
 
 export const useAuthStore = create<AuthState & Action>()((set) => ({
-  user: undefined,
-  error: undefined,
+  user: {} as User,
+  error: "",
   isLoading: true,
   setUser: (me) => {
     set({ user: me });

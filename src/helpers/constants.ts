@@ -3,6 +3,9 @@ export const paths = {
     signIn: "/auth/sign-in",
     signUp: "/auth/sign-up",
   },
+  dashboard: {
+    dashboard: "/dashboard",
+  },
 } as const;
 
 export const METHODS = [
@@ -31,3 +34,6 @@ export const METHODS = [
     icon: "/assets/icons/auth/ic_auth0.svg",
   },
 ];
+
+export const TOKEN_KEY = "token_key";
+export const REFRESH_TOKEN_KEY = "refresh_token";

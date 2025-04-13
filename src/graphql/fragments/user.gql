@@ -1,0 +1,11 @@
+fragment UserFragment on User {
+  createdAt
+  email
+  fullName
+  id
+  lastLoginAt
+  phoneNumber
+  phonePrefix
+  role
+  updatedAt
+}
