@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="173" height="220" viewBox="0 0 173 220">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.038" y1="0.026" x2="0.969" y2="0.966" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#d6d6d6"/>
+      <stop offset="0.087" stop-color="#e1e1e1"/>
+      <stop offset="0.353" stop-color="#f3f3f3"/>
+      <stop offset="0.555" stop-color="#ebebeb"/>
+      <stop offset="0.804" stop-color="#dcdcdc"/>
+      <stop offset="1" stop-color="silver"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_90682" data-name="Group 90682" transform="translate(19802 -3250)">
+    <g id="Group_90681" data-name="Group 90681">
+      <rect id="Rectangle_154097" data-name="Rectangle 154097" width="173" height="220" rx="10" transform="translate(-19802 3250)" fill="url(#linear-gradient)"/>
+      <g id="Group_90680" data-name="Group 90680" transform="translate(-20236 3205)">
+        <text id="NO_IMAGE" data-name="NO IMAGE" transform="translate(463 130)" fill="#7f8083" font-size="21" font-family="AvertaStdCY-Semibold, Averta Std CY" font-weight="600" letter-spacing="-0.02em"><tspan x="5.703" y="22">NO IMAGE</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

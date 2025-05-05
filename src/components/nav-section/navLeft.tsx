@@ -12,7 +12,7 @@ export default function NavSection({
   isOpen,
 }: NavSectionProps): React.JSX.Element {
   return (
-    <Box sx={{}}>
+    <Box>
       <Box
         sx={{ padding: isOpen ? "20px 16px 8px 16px" : "20px 0px 8px 28px" }}
       >
@@ -21,10 +21,11 @@ export default function NavSection({
       <Box
         sx={{
           padding: isOpen ? "8px 4px" : "8px 16px",
-          overflowY: "auto",
           height: "calc(100dvh - 80px)",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
+          overflowY: "auto",
+          position: "relative",
         }}
       >
         <NavList isOpen={isOpen} />

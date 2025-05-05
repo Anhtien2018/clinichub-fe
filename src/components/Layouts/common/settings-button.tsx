@@ -1,9 +1,10 @@
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 // @mui
 import { Theme, SxProps } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Badge, { badgeClasses } from "@mui/material/Badge";
+import { Icon } from "@/components/icons";
 // components
 
 // ----------------------------------------------------------------------
@@ -19,7 +20,6 @@ export default function SettingsButton({ sx }: Props) {
     <Badge
       color="error"
       variant="dot"
-      // invisible={!settings.canReset}
       sx={{
         [`& .${badgeClasses.badge}`]: {
           top: 8,
@@ -29,12 +29,10 @@ export default function SettingsButton({ sx }: Props) {
       }}
     >
       <Box
-        component={m.div}
-        animate={
-          {
-            // rotate: [0, settings.open ? 0 : 360],
-          }
-        }
+        component={motion.div}
+        animate={{
+          rotate: 360,
+        }}
         transition={{
           duration: 12,
           ease: "linear",
@@ -42,10 +40,9 @@ export default function SettingsButton({ sx }: Props) {
         }}
       >
         <IconButton
-          component={m.button}
+          component={motion.button}
           whileTap="tap"
           whileHover="hover"
-          // variants={varHover(1.05)}
           aria-label="settings"
           // onClick={settings.onToggle}
           sx={{
@@ -53,7 +50,7 @@ export default function SettingsButton({ sx }: Props) {
             height: 40,
           }}
         >
-          {/* <Iconify icon="solar:settings-bold-duotone" width={24} /> */}
+          <Icon icon="/assets/icons/header/setting.svg" />
         </IconButton>
       </Box>
     </Badge>

@@ -3,20 +3,19 @@ import { m } from "framer-motion";
 import { alpha } from "@mui/material/styles";
 
 import IconButton from "@mui/material/IconButton";
-
-// routes
-// import { paths } from 'src/routes/paths';
-// import { useRouter } from 'src/routes/hook';
-// // hooks
-// import { useMockedUser } from 'src/hooks/use-mocked-user';
-// // auth
-// import { useAuthContext } from 'src/auth/hooks';
-// // components
-// import { varHover } from 'src/components/animate';
-// import { useSnackbar } from 'src/components/snackbar';
-// import CustomPopover, { usePopover } from 'src/components/custom-popover';
-
-// ----------------------------------------------------------------------
+import { Icon } from "@/components/icons";
+import { NoImage } from "@/helpers/constants";
+import { Avatar } from "@/components/Avatar";
+import { usePopover } from "@/components/custom-popover";
+import {
+  Box,
+  Divider,
+  Drawer,
+  MenuItem,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { useBoolean } from "@/hooks/use-boolean";
 
 // const OPTIONS = [
 //   {
@@ -33,81 +32,69 @@ import IconButton from "@mui/material/IconButton";
 //   },
 // ];
 
-// ----------------------------------------------------------------------
-
 export default function AccountPopover() {
-  // const router = useRouter();
-
-  // const { user } = useAuthStore();
-
-  // const handleClickItem = (path: string) => {
-  //   router.push(path);
-  // };
-
+  const popover = usePopover();
+  const { value, onToggle } = useBoolean();
   return (
     <>
-      <IconButton
-        component={m.button}
-        whileTap="tap"
-        whileHover="hover"
-        sx={{
-          width: 40,
-          height: 40,
-          background: (theme) => alpha(theme.palette.grey[500], 0.08),
-          // ...(popover.open && {
-          //   background: (theme) =>
-          //     `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
-          // }),
-        }}
-      >
-        {/* <Avatar
-          src={user?.photoURL}
-          alt={user?.displayName}
-          sx={{
-            width: 36,
-            height: 36,
-            border: (theme) => `solid 2px ${theme.palette.background.default}`,
+      <Box onClick={onToggle}>
+        <Avatar
+          src={NoImage}
+          sxBox={{
+            width: "36px",
+            height: "36px",
+            cursor: "pointer",
           }}
-        /> */}
-      </IconButton>
+          sxImg={{
+            width: "100%",
+            height: "100%",
+            borderRadius: "50%",
+            objectFit: "cover",
+          }}
+        />
+      </Box>
 
-      {/* <CustomPopover
-        open={popover.open}
-        onClose={popover.onClose}
-        sx={{ width: 200, p: 0 }}
+      <Drawer
+        anchor="right"
+        open={value}
+        onClose={onToggle}
+        PaperProps={{
+          sx: {
+            width: 320,
+            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+          },
+        }}
+        ModalProps={{
+          BackdropProps: {
+            sx: { backgroundColor: "transparent" },
+          },
+          onClick: (event) => event.stopPropagation(), // Prevent click propagation
+        }}
       >
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.displayName}
+            Nguyễn Bùi Anh Tiến
           </Typography>
 
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {user?.email}
+            nguyenbuianhtien2018@gmail.com
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
         <Stack sx={{ p: 1 }}>
-          {OPTIONS.map((option) => (
-            <MenuItem
-              key={option.label}
-              onClick={() => handleClickItem(option.linkTo)}
-            >
-              {option.label}
-            </MenuItem>
-          ))}
+          <MenuItem>Home</MenuItem>
         </Stack>
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
         <MenuItem
-          onClick={handleLogout}
           sx={{ m: 1, fontWeight: "fontWeightBold", color: "error.main" }}
         >
-          Logout
+          Đăng xuất
         </MenuItem>
-      </CustomPopover> */}
+      </Drawer>
     </>
   );
 }

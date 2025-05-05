@@ -3,23 +3,15 @@
 // @mui
 import { useTheme } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-// theme
-// import { bgBlur } from "src/theme/css";
-// hooks
-// components
-// import SvgColor from "src/components/svg-color";
-// import { useSettingsContext } from "src/components/settings";
+
 //
 
 import { useResponsive } from "@/hooks/use-responsive";
-import { HEADER, NAV } from "../config-layout";
 import {
   AccountPopover,
-  // ContactsPopover,
-  LanguagePopover,
+  NotificationsPopover,
   Searchbar,
   SettingsButton,
 } from "../common";
@@ -42,8 +34,6 @@ export default function Header({ onOpenNav }: Props) {
 
   const lgUp = useResponsive("up", "lg");
 
-  //   const offsetTop = offset && !isNavHorizontal;
-
   const renderContent = (
     <>
       {/* {lgUp && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />} */}
@@ -63,9 +53,9 @@ export default function Header({ onOpenNav }: Props) {
         justifyContent="flex-end"
         spacing={{ xs: 0.5, sm: 1 }}
       >
-        <LanguagePopover />
+        {/* <LanguagePopover /> */}
 
-        {/* <NotificationsPopover /> */}
+        <NotificationsPopover />
 
         {/* <ContactsPopover /> */}
 

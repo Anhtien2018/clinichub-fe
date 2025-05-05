@@ -1,10 +1,11 @@
 "use client";
 
 import { Box, Grid } from "@mui/material";
-import React, { useState } from "react";
-import NavSection from "../nav-section/nav-section-vertical";
+import React from "react";
+import NavSection from "../nav-section/navLeft";
 import Header from "./Components/header";
 import { useBoolean } from "@/hooks/use-boolean";
+import { Icon } from "../icons";
 
 export default function AuthLayout({
   children,
@@ -55,10 +56,7 @@ export default function AuthLayout({
                   },
                 }}
               >
-                <Box
-                  component="img"
-                  src="/assets/icons/navbar/ic_arrow_open.svg"
-                />
+                <Icon icon="/assets/icons/navbar/ic_arrow_open.svg" />
               </Box>
               <NavSection isOpen={value} />
             </Grid>

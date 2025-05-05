@@ -37,3 +37,5 @@ export const METHODS = [
 
 export const TOKEN_KEY = "token_key";
 export const REFRESH_TOKEN_KEY = "refresh_token";
+export const NoImage = "/assets/images/noImage/no_image.svg";
+export const OpacityHover = 0.8;
