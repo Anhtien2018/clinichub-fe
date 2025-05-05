@@ -1,96 +1,400 @@
-type AdminDeviceInfoResponse {
-  deviceId: String!
-  deviceInfo: String
-  lastUsedAt: DateTime!
+input AddInventoryInput {
+  """
+  Số lượng cần thêm vào kho
+  """
+  amount: Int!
+
+  """
+  ID của thuốc cần thêm vào kho
+  """
+  drugId: String!
+
+  """
+  Loại đơn vị: BASE (đơn vị cơ bản) hoặc PACKAGE (đơn vị đóng gói)
+  """
+  unitType: UnitType!
 }
 
-input AdminLoginInput {
-  deviceId: String
-  deviceInfo: String
-  email: String!
-  password: String!
-}
-
-type AdminLoginResponse {
-  accessToken: String
-  deviceId: String
-  refreshToken: String
-  role: String
-}
-
-input AdminRefreshTokenInput {
-  deviceId: String!
-  refreshToken: String!
-}
-
-"""
-The role of the admin user
-"""
-enum AdminRole {
-  ADMIN
-  SUPER_ADMIN
-  SYSTEM_MANAGER
-}
-
-"""
-Administrative user model
-"""
-type AdminUser {
-  avatarDetail: Media
-  avatarId: String
-  createdAt: DateTime!
-  email: String!
-  firstName: String
+type ClinicEntity {
+  address: String!
+  clinicCode: String!
+  createdAt: Date!
+  description: String
+  email: String
   id: ID!
   isActive: Boolean!
-  lastName: String
+  logoUrl: String
+  name: String!
+  owner: User
+  phoneNumber: String
+  provinceCode: String
+  provinceName: String
+  updatedAt: Date!
+}
+
+input ClinicOwnerInput {
+  email: String!
+  fullName: String!
+  phoneNumber: String
+}
+
+type ClinicStatistics {
+  """
+  Số lượng cuộc hẹn trong tháng hiện tại
+  """
+  appointmentsThisMonth: Int!
+
+  """
+  Số lượng bệnh nhân mới trong tháng hiện tại
+  """
+  newPatientsThisMonth: Int!
+
+  """
+  Doanh thu trong tháng (nếu có)
+  """
+  revenueThisMonth: Int
+  totalAppointments: Int!
+  totalDoctors: Int!
+  totalPatients: Int!
+}
+
+input CreateClinicInput {
+  address: String!
+  description: String
+  email: String
+  logoUrl: String
+  name: String!
+  owner: ClinicOwnerInput!
+  phoneNumber: String
+  provinceCode: String
+}
+
+input CreateDrugInput {
+  """
+  Đơn vị cơ bản (PILL: Viên, AMPOULE: Ống)
+  """
+  baseUnit: DrugBaseUnitEnum!
+
+  """
+  Mã thuốc - phải là duy nhất trong phòng khám
+  """
+  code: String!
+
+  """
+  Tỷ lệ chuyển đổi (1 đơn vị đóng gói = ? đơn vị cơ bản), ví dụ: 1 hộp = 30 viên thì nhập 30
+  """
+  conversionRate: Int!
+
+  """
+  Giá nhập vào (đơn vị: VND)
+  """
+  costPrice: Float
+
+  """
+  Thành phần, hoạt chất của thuốc
+  """
+  ingredient: String
+
+  """
+  Tên thuốc
+  """
+  name: String!
+
+  """
+  Đơn vị đóng gói (đơn vị lớn), ví dụ: hộp, chai, lọ
+  """
+  packageUnit: String!
+
+  """
+  Giá bán ra (đơn vị: VND)
+  """
+  price: Float!
+
+  """
+  Số lượng ban đầu (tính theo đơn vị cơ bản)
+  """
+  quantity: Int!
+}
+
+input CreateExamOrderItemInput {
+  medicalExamId: String
+  price: Float!
+  result: String
+  serviceId: String!
+}
+
+input CreateMedicalExamInput {
+  diagnosis: String
+  doctorId: String
+  examCode: String
+  examDate: Date!
+  notes: String
+  patientId: String!
+  reason: String
+  symptoms: String
+}
+
+input CreatePatientInput {
+  address: String
+  clinicId: String!
+  dateOfBirth: Date
+  email: String
+  fullName: String!
+  gender: Gender
+  healthInsuranceId: String
+  metadata: MetadataInput
   phoneNumber: String
   phonePrefix: String
-  role: String!
-  updatedAt: DateTime!
-  username: String!
 }
 
-input CreateAdminUserDto {
-  email: String!
-  firstName: String!
-  lastName: String!
-  password: String!
-  phoneNumber: String!
-  phonePrefix: String! = "+84"
-  role: String!
-  username: String!
+input CreatePrescriptionInput {
+  doctorId: String
+  items: [CreatePrescriptionItemInput!]
+  medicalExamId: String!
+  notes: String
+  prescriptionCode: String
+  prescriptionDate: Date!
 }
 
-input CreateTenantInput {
-  code: String!
+input CreatePrescriptionItemInput {
+  drugId: String!
+  instruction: String
+  prescriptionId: String
+  price: Float!
+  quantity: Int!
+  total: Float
+  usage: String
+}
+
+input CreateServiceCategoryInput {
   description: String
-  isActive: Boolean!
+  isActive: Boolean = true
   name: String!
 }
 
-input CreateUserDto {
+input CreateServiceInput {
+  canBookOnline: Boolean = false
+  categoryId: String
+  code: String!
+  costPrice: Float
+  description: String
+  duration: Int
+  isActive: Boolean = true
+  name: String!
+  price: Float!
+}
+
+input CreateUserInput {
+  avatarId: String
   email: String!
   fullName: String
   password: String!
   phoneNumber: String
   phonePrefix: String = "+84"
-  role: UserRole
+  role: RoleEnum
+  username: String
 }
 
 """
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+Date custom scalar type
 """
-scalar DateTime
+scalar Date
 
 type DeviceInfoResponse {
   deviceId: String!
   deviceInfo: String
-  lastUsedAt: DateTime!
+  lastUsedAt: Date!
+}
+
+input DispenseInventoryInput {
+  """
+  Số lượng cần xuất (luôn tính theo đơn vị cơ bản)
+  """
+  amount: Int!
+
+  """
+  ID của thuốc cần xuất kho/kê đơn
+  """
+  drugId: String!
+}
+
+type Drug {
+  """
+  Số lượng lẻ theo đơn vị cơ bản. Ví dụ: 35 viên % 30 = 5 viên
+  """
+  baseQuantityRemainder: Int!
+
+  """
+  Đơn vị cơ bản của thuốc (đơn vị nhỏ nhất). PILL: Viên, AMPOULE: Ống
+  """
+  baseUnit: DrugBaseUnitEnum!
+
+  """
+  Tên đơn vị cơ bản bằng tiếng Việt. Ví dụ: PILL → "Viên", AMPOULE → "Ống"
+  """
+  baseUnitName: String!
+
+  """
+  Phòng khám sở hữu thuốc này
+  """
+  clinic: ClinicEntity!
+
+  """
+  ID của phòng khám sở hữu thuốc này
+  """
+  clinicId: String!
+
+  """
+  Mã thuốc - phải là duy nhất trong phòng khám
+  """
+  code: String!
+
+  """
+  Tỷ lệ chuyển đổi (1 đơn vị đóng gói = ? đơn vị cơ bản). Ví dụ: 1 hộp = 30 viên thì giá trị là 30
+  """
+  conversionRate: Int!
+
+  """
+  Giá nhập vào (đơn vị: VND). Dùng để tính lợi nhuận
+  """
+  costPrice: Float
+
+  """
+  Ngày giờ tạo bản ghi
+  """
+  createdAt: Date!
+
+  """
+  ID định danh duy nhất của thuốc
+  """
+  id: ID!
+
+  """
+  Thành phần, hoạt chất của thuốc
+  """
+  ingredient: String
+
+  """
+  Trạng thái đã xóa hay chưa. True: đã xóa, False: chưa xóa
+  """
+  isDeleted: Boolean!
+
+  """
+  Tên thuốc
+  """
+  name: String!
+
+  """
+  Số lượng theo đơn vị đóng gói (làm tròn xuống). Ví dụ: 35 viên ÷ 30 = 1 hộp
+  """
+  packageQuantity: Int!
+
+  """
+  Đơn vị đóng gói (đơn vị lớn), ví dụ: hộp, chai, lọ
+  """
+  packageUnit: String!
+
+  """
+  Giá bán ra (đơn vị: VND)
+  """
+  price: Float!
+
+  """
+  Số lượng hiện có (luôn tính theo đơn vị cơ bản)
+  """
+  quantity: Int!
+
+  """
+  Chuỗi hiển thị thông tin tồn kho đầy đủ. Ví dụ: "240 viên (8 hộp và 0 viên)" hoặc "35 viên (1 hộp và 5 viên)"
+  """
+  stockDisplay: String!
+
+  """
+  Ngày giờ cập nhật bản ghi gần nhất
+  """
+  updatedAt: Date!
+}
+
+"""
+Enum for drug base units
+"""
+enum DrugBaseUnitEnum {
+  """
+  Ống
+  """
+  AMPOULE
+
+  """
+  Viên
+  """
+  PILL
+}
+
+input DrugFilterInput {
+  """
+  Số bản ghi mỗi trang (tối đa 100)
+  """
+  limit: Int = 10
+
+  """
+  Lọc thuốc có số lượng dưới ngưỡng (sắp hết hàng)
+  """
+  lowStock: Boolean
+
+  """
+  Ngưỡng cảnh báo sắp hết hàng (mặc định: 10)
+  """
+  lowStockThreshold: Int
+
+  """
+  Trang hiện tại (bắt đầu từ 1)
+  """
+  page: Int = 1
+
+  """
+  Chuỗi tìm kiếm
+  """
+  search: String
+
+  """
+  Tên trường để sắp xếp
+  """
+  sortBy: String
+
+  """
+  Hướng sắp xếp (ASC/DESC)
+  """
+  sortOrder: String = "ASC"
+}
+
+type ExamOrderItem {
+  clinicId: String!
+  completed: Boolean!
+  completedAt: Date
+  completedBy: String
+  createdAt: Date!
+  id: ID!
+  medicalExam: MedicalExam!
+  medicalExamId: String!
+  price: Float!
+  result: String
+  service: Service!
+  serviceId: String!
+  updatedAt: Date!
 }
 
 input ForgotPasswordDto {
   email: String!
+}
+
+"""
+Gender options for patients
+"""
+enum Gender {
+  FEMALE
+  MALE
+  OTHER
+  UNSPECIFIED
 }
 
 input LoginInput {
@@ -101,14 +405,15 @@ input LoginInput {
 }
 
 type LoginResponse {
-  accessToken: String!
-  deviceId: String
-  refreshToken: String!
-  role: String!
+  accessToken: String
+  clinicId: String
+  refreshToken: String
+  role: String
 }
 
 type Media {
-  createdAt: DateTime!
+  clinicId: String
+  createdAt: Date!
   filename: String!
   id: ID!
   metadata: String
@@ -118,14 +423,15 @@ type Media {
   purpose: String
   size: Float!
   type: String!
-  updatedAt: DateTime!
+  updatedAt: Date!
   uploaderId: String
   uploaderType: UploaderType
   url: String!
 }
 
 type MediaWithParsedMetadata {
-  createdAt: DateTime!
+  clinicId: String
+  createdAt: Date!
   filename: String!
   id: ID!
   metadata: String
@@ -136,48 +442,104 @@ type MediaWithParsedMetadata {
   purpose: String
   size: Float!
   type: String!
-  updatedAt: DateTime!
+  updatedAt: Date!
   uploaderId: String
   uploaderType: UploaderType
   url: String!
 }
 
+type MedicalExam {
+  clinic: ClinicEntity!
+  clinicId: String!
+  createdAt: Date!
+  diagnosis: String
+  doctor: User
+  doctorId: String
+  examCode: String
+  examDate: Date!
+  id: ID!
+  isActive: Boolean!
+  notes: String
+  orderItems: [ExamOrderItem!]!
+  patient: Patient!
+  patientId: String!
+  prescriptions: [Prescription!]!
+  reason: String
+  symptoms: String
+  updatedAt: Date!
+}
+
+type Metadata {
+  key: String
+  value: String
+}
+
+input MetadataInput {
+  key: String
+  value: String
+}
+
 type Mutation {
-  admin_adminCreateUser(input: CreateAdminUserDto!): AdminUser!
-  admin_adminDeleteUser(id: String!): Boolean!
-  admin_adminForgotPassword(input: ForgotPasswordDto!): Boolean!
-  admin_adminLogin(adminLoginInput: AdminLoginInput!): AdminLoginResponse!
-  admin_adminLogout(refreshToken: String!): Boolean!
-  admin_adminLogoutAll: Boolean!
-  admin_adminRefreshToken(
-    refreshTokenInput: AdminRefreshTokenInput!
-  ): AdminLoginResponse!
-  admin_adminResetPassword(input: VerifyOtpDto!): Boolean!
-  admin_adminUpdateUser(id: String!, input: UpdateAdminUserDto!): AdminUser!
-  admin_createUser(input: CreateUserDto!): User!
-  admin_removeAdminDevice(deviceId: String!): Boolean!
-  admin_removeUser(id: ID!): Boolean!
-  admin_updateUser(id: ID!, input: UpdateUserDto!): User!
-  admin_updateUserRole(role: UserRole!, userId: ID!): User!
-  createTenant(input: CreateTenantInput!): Tenant!
-  createUser(input: CreateUserDto!): User!
+  addInventory(input: AddInventoryInput!): Drug!
+  addMultipleServiceOrders(
+    inputs: [CreateExamOrderItemInput!]!
+    medicalExamId: ID!
+  ): [ExamOrderItem!]!
+  addServiceOrder(
+    input: CreateExamOrderItemInput!
+    medicalExamId: ID!
+  ): ExamOrderItem!
+  completeServiceOrder(orderItemId: ID!, result: String!): ExamOrderItem!
+  createClinic(createClinicInput: CreateClinicInput!): ClinicEntity!
+  createClinicUser(clinicIds: [String!]!, input: CreateUserInput!): User!
+  createDrug(input: CreateDrugInput!): Drug!
+  createMedicalExam(input: CreateMedicalExamInput!): MedicalExam!
+  createPatient(createPatientInput: CreatePatientInput!): Patient!
+  createPrescription(input: CreatePrescriptionInput!): Prescription!
+  createService(createServiceInput: CreateServiceInput!): Service!
+  createServiceCategory(
+    createServiceCategoryInput: CreateServiceCategoryInput!
+  ): ServiceCategory!
+  createSystemUser(input: CreateUserInput!): User!
+  createUser(clinicIds: [String!], input: CreateUserInput!): User!
+  deleteDrug(id: ID!): Boolean!
   deleteMedia(id: ID!): Boolean!
-  forgotPassword(input: UserForgotPasswordDto!): Boolean!
+  disableClinic(id: ID!): ClinicEntity!
+  dispenseInventory(input: DispenseInventoryInput!): Drug!
+  enableClinic(id: ID!): ClinicEntity!
+  forgotPassword(input: ForgotPasswordDto!): Boolean!
   login(loginInput: LoginInput!): LoginResponse!
   logout(refreshToken: String!): Boolean!
   logoutAll: Boolean!
   refreshToken(refreshTokenInput: RefreshTokenInput!): LoginResponse!
-  removeDevice(deviceId: String!): Boolean!
-  removeTenant(id: String!): Boolean!
+  removeClinic(id: String!): Boolean!
+  removeMedicalExam(id: ID!): Boolean!
+  removePatient(id: ID!): Boolean!
+  removePrescription(id: ID!): Boolean!
+  removeService(id: ID!): Boolean!
+  removeServiceCategory(id: ID!): Boolean!
+  removeServiceOrder(orderItemId: ID!): Boolean!
   removeUser(id: ID!): Boolean!
-  resetPassword(input: UserVerifyOtpDto!): Boolean!
-  updateProfile(input: UpdateUserDto!): User!
-  updateTenant(id: String!, input: UpdateTenantInput!): Tenant!
-  updateUser(id: ID!, input: UpdateUserDto!): User!
-  updateUserRole(role: UserRole!, userId: ID!): User!
+  resetPassword(input: VerifyOtpDto!): Boolean!
+  systemCreateClinic(input: CreateClinicInput!): ClinicEntity!
+  systemRemoveClinic(id: ID!): Boolean!
+  systemUpdateClinic(id: ID!, input: UpdateClinicInput!): ClinicEntity!
+  updateClinic(
+    id: String!
+    updateClinicInput: UpdateClinicInput!
+  ): ClinicEntity!
+  updateDrug(input: UpdateDrugInput!): Drug!
+  updateMedicalExam(input: UpdateMedicalExamInput!): MedicalExam!
+  updatePatient(id: ID!, updatePatientInput: UpdatePatientInput!): Patient!
+  updatePrescription(input: UpdatePrescriptionInput!): Prescription!
+  updateProfile(input: UpdateUserInput!): User!
+  updateService(updateServiceInput: UpdateServiceInput!): Service!
+  updateServiceCategory(
+    updateServiceCategoryInput: UpdateServiceCategoryInput!
+  ): ServiceCategory!
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+  updateUserRole(roleName: String!, userId: ID!): User!
   uploadMedia(input: UploadInput!): Media!
-  userForgotPassword(input: UserForgotPasswordDto!): Boolean!
-  userResetPassword(input: UserVerifyOtpDto!): Boolean!
 }
 
 type PageInfo {
@@ -188,49 +550,189 @@ type PageInfo {
   totalPages: Int!
 }
 
-type PaginatedAdminUsers {
-  items: [AdminUser!]!
+type PaginatedClinics {
+  items: [ClinicEntity!]
+  pageInfo: PageInfo!
+}
+
+type PaginatedDrugs {
+  items: [Drug!]
   pageInfo: PageInfo!
 }
 
 type PaginatedMedia {
-  items: [Media!]!
+  items: [Media!]
+  pageInfo: PageInfo!
+}
+
+type PaginatedMedicalExams {
+  items: [MedicalExam!]
+  pageInfo: PageInfo!
+}
+
+type PaginatedPatients {
+  items: [Patient!]
+  pageInfo: PageInfo!
+}
+
+type PaginatedPrescriptions {
+  items: [Prescription!]
+  pageInfo: PageInfo!
+}
+
+type PaginatedServices {
+  items: [Service!]
   pageInfo: PageInfo!
 }
 
 type PaginatedUsers {
-  items: [User!]!
+  items: [User!]
   pageInfo: PageInfo!
 }
 
 input PaginationInput {
+  """
+  Số bản ghi mỗi trang (tối đa 100)
+  """
   limit: Int = 10
+
+  """
+  Trang hiện tại (bắt đầu từ 1)
+  """
   page: Int = 1
+
+  """
+  Chuỗi tìm kiếm
+  """
   search: String
+
+  """
+  Tên trường để sắp xếp
+  """
+  sortBy: String
+
+  """
+  Hướng sắp xếp (ASC/DESC)
+  """
+  sortOrder: String = "ASC"
+}
+
+type Patient {
+  address: String
+  clinic: ClinicEntity
+  clinicId: String!
+  createdAt: Date!
+  dateOfBirth: Date
+  email: String
+  fullName: String!
+  gender: Gender
+  healthInsuranceId: String
+  id: ID!
+  isActive: Boolean!
+  metadata: Metadata
+  phoneNumber: String
+  phonePrefix: String
+  updatedAt: Date!
+}
+
+type Permission {
+  action: String!
+  createdAt: Date!
+  description: String!
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  resource: String!
+  roles: [Role!]
+  updatedAt: Date!
+}
+
+type Prescription {
+  clinic: ClinicEntity!
+  clinicId: String!
+  createdAt: Date!
+  doctor: User
+  doctorId: String
+  id: ID!
+  isActive: Boolean!
+  items: [PrescriptionItem!]!
+  medicalExam: MedicalExam!
+  medicalExamId: String!
+  notes: String
+  prescriptionCode: String
+  prescriptionDate: Date!
+  updatedAt: Date!
+}
+
+type PrescriptionItem {
+  clinicId: String!
+  createdAt: Date!
+  drug: Drug!
+  drugId: String!
+  id: ID!
+  instruction: String!
+  isActive: Boolean!
+  prescription: Prescription!
+  prescriptionId: String!
+  price: Float!
+  quantity: Int!
+  total: Float!
+  updatedAt: Date!
+  usage: String
 }
 
 type Query {
-  admin_adminMe: AdminUser!
-  admin_adminUser(id: String!): AdminUser!
-  admin_adminUsers(pagination: PaginationInput): PaginatedAdminUsers!
-  admin_getAdminDevices: [AdminDeviceInfoResponse!]!
-  admin_user(id: ID!): User!
-  admin_users(pagination: PaginationInput): PaginatedUsers!
-  admin_usersByRole(
-    pagination: PaginationInput
-    role: UserRole!
-  ): PaginatedUsers!
+  activeServiceCategories: [ServiceCategory!]!
+  activeServices: [Service!]!
+  clinic(id: String!): ClinicEntity!
+  clinicStatistics(id: ID!): ClinicStatistics!
+  clinicUsers(clinicId: String, pagination: PaginationInput): PaginatedUsers!
+  clinicWithPatients(id: String!): ClinicEntity!
+  clinics: [ClinicEntity!]!
+  countServiceCategories: Float!
+  countServices: Float!
+  drug(id: ID!): Drug!
+  drugs(filter: DrugFilterInput): PaginatedDrugs!
   getDeviceById(deviceId: String!): DeviceInfoResponse!
   getUserDevices: [DeviceInfoResponse!]!
+  isClinicUser(userId: ID!): Boolean!
+  isSystemUser(userId: ID!): Boolean!
   me: User!
   media(pagination: PaginationInput): PaginatedMedia!
   mediaById(id: ID!): MediaWithParsedMetadata!
   mediaByUser(pagination: PaginationInput, userId: ID!): PaginatedMedia!
-  tenant(id: String!): Tenant!
-  tenants: [Tenant!]!
+  medicalExam(id: ID!): MedicalExam!
+  medicalExamsByPatientPaginated(
+    pagination: PaginationInput
+    patientId: ID!
+  ): PaginatedMedicalExams!
+  medicalExamsPaginated(pagination: PaginationInput): PaginatedMedicalExams!
+  onlineBookableServices: [Service!]!
+  patient(id: ID!): Patient!
+  patientByEmail(email: String!): Patient
+  patientByPhone(phoneNumber: String!): Patient
+  patients(clinicId: String, pagination: PaginationInput): PaginatedPatients!
+  patientsByClinic(
+    clinicId: String!
+    pagination: PaginationInput
+  ): PaginatedPatients!
+  prescription(id: ID!): Prescription!
+  prescriptionsByMedicalExamPaginated(
+    medicalExamId: ID!
+    pagination: PaginationInput
+  ): PaginatedPrescriptions!
+  service(id: ID!): Service!
+  serviceCategories: [ServiceCategory!]!
+  serviceCategory(id: ID!): ServiceCategory!
+  services(pagination: PaginationInput): PaginatedServices!
+  servicesByCategory(categoryId: ID!): [Service!]!
+  systemClinic(id: ID!): ClinicEntity!
+  systemClinics: [ClinicEntity!]!
+  systemPaginatedClinics(pagination: PaginationInput): PaginatedClinics!
+  systemUsers(pagination: PaginationInput): PaginatedUsers!
   user(id: ID!): User!
   users(pagination: PaginationInput): PaginatedUsers!
-  usersByRole(pagination: PaginationInput, role: UserRole!): PaginatedUsers!
+  usersByRole(pagination: PaginationInput, role: String!): PaginatedUsers!
 }
 
 input RefreshTokenInput {
@@ -239,43 +741,301 @@ input RefreshTokenInput {
   refreshToken: String!
 }
 
-type Tenant {
-  code: String!
-  createdAt: DateTime!
-  description: String
-  id: String!
+type Role {
+  createdAt: Date!
+  description: String!
+  id: ID!
   isActive: Boolean!
   name: String!
-  updatedAt: DateTime!
+  permissions: [Permission!]
+  updatedAt: Date!
 }
 
-input UpdateAdminUserDto {
-  avatarId: String
+"""
+The role enum defines available user roles in the system
+"""
+enum RoleEnum {
+  CLINIC_ADMIN
+  DOCTOR
+  RECEPTIONIST
+  SUPER_ADMIN
+  SYSTEM_ADMIN
+  SYSTEM_MANAGER
+}
+
+type Service {
+  """
+  Cho phép đặt lịch online hay không
+  """
+  canBookOnline: Boolean!
+
+  """
+  Danh mục dịch vụ
+  """
+  category: ServiceCategory
+
+  """
+  ID của danh mục dịch vụ
+  """
+  categoryId: String
+
+  """
+  Phòng khám sở hữu dịch vụ này
+  """
+  clinic: ClinicEntity!
+
+  """
+  ID của phòng khám sở hữu dịch vụ này
+  """
+  clinicId: String!
+
+  """
+  Mã dịch vụ (unique trong phòng khám)
+  """
+  code: String!
+
+  """
+  Giá gốc, dùng để tính lợi nhuận
+  """
+  costPrice: Float
+
+  """
+  Ngày giờ tạo bản ghi
+  """
+  createdAt: Date!
+
+  """
+  Mô tả chi tiết dịch vụ
+  """
+  description: String
+
+  """
+  Thời lượng dự kiến (VD: 30 phút)
+  """
+  duration: Int
+
+  """
+  ID định danh duy nhất của dịch vụ
+  """
+  id: ID!
+
+  """
+  Đang hoạt động hay đã tạm ẩn
+  """
+  isActive: Boolean!
+
+  """
+  Soft delete flag
+  """
+  isDeleted: Boolean!
+
+  """
+  Tên dịch vụ (VD: Khám tổng quát, Nội soi dạ dày)
+  """
+  name: String!
+
+  """
+  Giá tiền dịch vụ (VD: 200.000 VND)
+  """
+  price: Float!
+
+  """
+  Ngày giờ cập nhật bản ghi gần nhất
+  """
+  updatedAt: Date!
+}
+
+type ServiceCategory {
+  """
+  Phòng khám sở hữu danh mục dịch vụ này
+  """
+  clinic: ClinicEntity!
+
+  """
+  ID của phòng khám sở hữu danh mục dịch vụ này
+  """
+  clinicId: String!
+
+  """
+  Ngày giờ tạo bản ghi
+  """
+  createdAt: Date!
+
+  """
+  Mô tả danh mục dịch vụ
+  """
+  description: String
+
+  """
+  ID định danh duy nhất của danh mục dịch vụ
+  """
+  id: ID!
+
+  """
+  Đang hoạt động hay đã tạm ẩn
+  """
+  isActive: Boolean!
+
+  """
+  Tên danh mục dịch vụ (VD: Xét nghiệm, Chẩn đoán hình ảnh)
+  """
+  name: String!
+
+  """
+  Danh sách dịch vụ thuộc danh mục này
+  """
+  services: [Service!]
+
+  """
+  Ngày giờ cập nhật bản ghi gần nhất
+  """
+  updatedAt: Date!
+}
+
+"""
+Enum for unit types
+"""
+enum UnitType {
+  """
+  Đơn vị cơ bản
+  """
+  BASE
+
+  """
+  Đơn vị đóng gói
+  """
+  PACKAGE
+}
+
+input UpdateClinicInput {
+  address: String
+  description: String
   email: String
-  firstName: String
+  id: String!
   isActive: Boolean
-  lastName: String
-  password: String
+  logoUrl: String
+  name: String
+  phoneNumber: String
+  provinceCode: String
+}
+
+input UpdateDrugInput {
+  """
+  Đơn vị cơ bản (PILL: Viên, AMPOULE: Ống)
+  """
+  baseUnit: DrugBaseUnitEnum
+
+  """
+  Mã thuốc - phải là duy nhất trong phòng khám
+  """
+  code: String
+
+  """
+  Tỷ lệ chuyển đổi (1 đơn vị đóng gói = ? đơn vị cơ bản), ví dụ: 1 hộp = 30 viên thì nhập 30
+  """
+  conversionRate: Int
+
+  """
+  Giá nhập vào (đơn vị: VND)
+  """
+  costPrice: Float
+
+  """
+  ID của thuốc cần cập nhật
+  """
+  id: ID!
+
+  """
+  Thành phần, hoạt chất của thuốc
+  """
+  ingredient: String
+
+  """
+  Tên thuốc
+  """
+  name: String
+
+  """
+  Đơn vị đóng gói (đơn vị lớn), ví dụ: hộp, chai, lọ
+  """
+  packageUnit: String
+
+  """
+  Giá bán ra (đơn vị: VND)
+  """
+  price: Float
+
+  """
+  Số lượng ban đầu (tính theo đơn vị cơ bản)
+  """
+  quantity: Int
+}
+
+input UpdateMedicalExamInput {
+  diagnosis: String
+  doctorId: String
+  examCode: String
+  examDate: Date
+  id: ID!
+  notes: String
+  patientId: String
+  reason: String
+  symptoms: String
+}
+
+input UpdatePatientInput {
+  address: String
+  dateOfBirth: Date
+  email: String
+  fullName: String
+  gender: Gender
+  healthInsuranceId: String
+  isActive: Boolean
+  metadata: MetadataInput
   phoneNumber: String
   phonePrefix: String
-  role: AdminRole
-  username: String
 }
 
-input UpdateTenantInput {
-  code: String
+input UpdatePrescriptionInput {
+  doctorId: String
+  id: ID!
+  items: [CreatePrescriptionItemInput!]
+  medicalExamId: String
+  notes: String
+  prescriptionCode: String
+  prescriptionDate: Date
+}
+
+input UpdateServiceCategoryInput {
   description: String
+  id: ID!
   isActive: Boolean
   name: String
 }
 
-input UpdateUserDto {
+input UpdateServiceInput {
+  canBookOnline: Boolean
+  categoryId: String
+  code: String
+  costPrice: Float
+  description: String
+  duration: Int
+  id: ID!
+  isActive: Boolean
+  name: String
+  price: Float
+}
+
+input UpdateUserInput {
+  avatarId: String
+  clinicId: String
   email: String
   fullName: String
+  isActive: Boolean
   password: String
   phoneNumber: String
   phonePrefix: String
-  role: UserRole
+  roleIds: [String!]
 }
 
 input UploadInput {
@@ -296,36 +1056,28 @@ enum UploaderType {
 }
 
 type User {
-  createdAt: DateTime!
+  avatarId: String
+  clinics: [ClinicEntity!]
+  createdAt: Date!
   email: String!
   fullName: String
   id: ID!
-  lastLoginAt: DateTime
+  isActive: Boolean!
+  lastLoginAt: Date
   phoneNumber: String
   phonePrefix: String
-  role: UserRole!
-  updatedAt: DateTime!
-}
-
-input UserForgotPasswordDto {
-  email: String!
+  roles: [Role!]
+  updatedAt: Date!
+  userType: UserType!
+  username: String
 }
 
 """
-The role of the user
+Type of user in the system (system or clinic user)
 """
-enum UserRole {
-  CLINIC_ADMIN
-  CUSTOMER
-  DOCTOR
-  RECEPTIONIST
-  TENANT_ADMIN
-}
-
-input UserVerifyOtpDto {
-  email: String!
-  newPassword: String!
-  otp: String!
+enum UserType {
+  CLINIC
+  SYSTEM
 }
 
 input VerifyOtpDto {

@@ -1,12 +1,15 @@
 "use client";
 
-import { useLoginMutation } from "@/graphql/mutations/login.generated";
-import { LoginMutationVariables } from "@/graphql/mutations/login.generated";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
-import Cookies from "js-cookie";
-import { TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/helpers/constants";
+import {
+  LoginMutationVariables,
+  useLoginMutation,
+} from "@/graphql/mutation/login.generated";
+import { setRefreshToken, setToken } from "@/common/helper";
+import { useRouter } from "next/navigation";
+import { useBoolean } from "@/hooks/use-boolean";
 
 const validationSchema = Yup.object({
   loginInput: Yup.object({
@@ -22,12 +25,17 @@ const validationSchema = Yup.object({
 });
 export default function useSignIn() {
   const [focusPassword, setFocusPassword] = useState<boolean>(false);
+  const { value, onTrue, onFalse } = useBoolean(false);
+  const router = useRouter();
   const [login] = useLoginMutation({
     onCompleted: (data) => {
-      Cookies.set(TOKEN_KEY, data.login.accessToken);
-      Cookies.set(REFRESH_TOKEN_KEY, data.login.refreshToken);
+      setToken(data.login.accessToken as string);
+      setRefreshToken(data.login.refreshToken as string);
+      router.refresh();
+      onFalse();
     },
     onError: (error) => {
+      onFalse();
       console.error("Login error", error.message);
     },
   });
@@ -35,14 +43,13 @@ export default function useSignIn() {
   const formik = useFormik<LoginMutationVariables>({
     initialValues: {
       loginInput: {
-        deviceId: undefined,
-        deviceInfo: undefined,
         email: "",
         password: "",
       },
     },
     validationSchema,
     onSubmit: (value) => {
+      onTrue();
       login({
         variables: {
           loginInput: {
@@ -58,5 +65,6 @@ export default function useSignIn() {
     formik,
     focusPassword,
     setFocusPassword,
+    value,
   };
 }

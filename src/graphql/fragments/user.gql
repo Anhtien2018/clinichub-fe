@@ -1,11 +1,61 @@
 fragment UserFragment on User {
+  avatarId
+  clinics {
+    address
+    clinicCode
+    createdAt
+    description
+    email
+    id
+    isActive
+    logoUrl
+    name
+    owner {
+      avatarId
+      createdAt
+      email
+      fullName
+      id
+      isActive
+      lastLoginAt
+      phoneNumber
+      phonePrefix
+      updatedAt
+      userType
+      username
+    }
+    phoneNumber
+    provinceCode
+    provinceName
+    updatedAt
+  }
   createdAt
   email
   fullName
   id
+  isActive
   lastLoginAt
   phoneNumber
   phonePrefix
-  role
+  roles {
+    createdAt
+    description
+    id
+    isActive
+    name
+    permissions {
+      action
+      createdAt
+      description
+      id
+      isActive
+      name
+      resource
+      updatedAt
+    }
+    updatedAt
+  }
   updatedAt
+  userType
+  username
 }

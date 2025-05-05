@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { PropagateLoader } from "react-spinners";
 
 interface ButtonCustomProps {
   text: string;
@@ -41,12 +42,20 @@ const ButtonCustom: React.FC<ButtonCustomProps> = ({
         "&:hover": { opacity: 0.8 },
         border: "none",
         textTransform: "none",
+        display: "flex",
+        alignItems: "center",
         ...sx,
       }}
     >
-      <Typography sx={{ ...sxText }}>
-        {loading ? <CircularProgress size={20} color="inherit" /> : text}
-      </Typography>
+      {loading ? (
+        <Box sx={{ height: "100%", display: "flex", alignItems: "center" }}>
+          <PropagateLoader color="#ffffff" size="10" />
+        </Box>
+      ) : (
+        <Typography sx={{ ...sxText, display: "flex", alignItems: "center" }}>
+          {text}
+        </Typography>
+      )}
     </Button>
   );
 };

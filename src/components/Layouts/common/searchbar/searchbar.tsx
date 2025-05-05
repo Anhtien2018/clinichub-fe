@@ -18,6 +18,8 @@ import Dialog, { dialogClasses } from "@mui/material/Dialog";
 // import { applyFilter, groupedData, getAllItems } from "./utils";
 // import { useResponsive } from "@/hooks/use-responsive";
 import { useBoolean } from "@/hooks/use-boolean";
+import { Icon } from "@/components/icons";
+import { Typography } from "@mui/material";
 // import ResultItem from "./result-item";
 
 // ----------------------------------------------------------------------
@@ -104,16 +106,24 @@ function Searchbar() {
   // };
 
   const renderButton = (
-    <Stack direction="row" alignItems="center">
+    <Stack
+      direction="row"
+      alignItems="center"
+      // sx={{ background: "#919EAB14", borderRadius: "12px" }}
+    >
       <IconButton onClick={search.onTrue}>
-        {/* <Iconify icon="eva:search-fill" />/ */}
+        <Icon icon="/assets/icons/header/search.svg" />
       </IconButton>
-
-      {/* {mdUp && (
-        // <Label sx={{ px: 0.75, fontSize: 12, color: "text.secondary" }}>
-        //   ⌘K
-        // </Label>
-      )} */}
+      {/* <Typography
+        sx={{
+          fontSize: "1rem",
+          fontWeight: 500,
+          padding: "0px 6px",
+          background: "#fff",
+        }}
+      >
+        ⌘K
+      </Typography> */}
     </Stack>
   );
 
@@ -151,11 +161,7 @@ function Searchbar() {
             onChange={handleSearch}
             startAdornment={
               <InputAdornment position="start">
-                {/* <Iconify
-                  icon="eva:search-fill"
-                  width={24}
-                  sx={{ color: "text.disabled" }}
-                /> */}
+                <Icon icon="/assets/icons/header/search.svg" />
               </InputAdornment>
             }
             inputProps={{

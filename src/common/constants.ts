@@ -5,6 +5,12 @@ export const paths = {
   },
   dashboard: {
     dashboard: "/dashboard",
+    products: {
+      index: "/dashboard/products",
+    },
+    users: {
+      index: "/dashboard/users",
+    },
   },
 } as const;
 

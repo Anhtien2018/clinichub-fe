@@ -1,51 +1,46 @@
 "use client";
 
-// @mui
 import { useTheme } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 
-//
-
-import { useResponsive } from "@/hooks/use-responsive";
 import {
   AccountPopover,
   NotificationsPopover,
   Searchbar,
   SettingsButton,
 } from "../common";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useHeader } from "./useHeader";
+import { Avatar } from "@/components/Avatar";
 
-// ----------------------------------------------------------------------
-
-type Props = {
-  onOpenNav?: VoidFunction;
-};
-
-export default function Header({ onOpenNav }: Props) {
-  const theme = useTheme();
-
-  //   const settings = useSettingsContext();
-
-  //   const isNavHorizontal = settings.themeLayout === "horizontal";
-
-  //   const isNavMini = settings.themeLayout === "mini";
-
-  const lgUp = useResponsive("up", "lg");
+export default function Header() {
+  const { clinic } = useHeader();
 
   const renderContent = (
-    <>
-      {/* {lgUp && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />} */}
-
-      {!lgUp && (
-        <IconButton onClick={onOpenNav}>
-          {/* <SvgColor src="/assets/icons/navbar/ic_menu_item.svg" /> */}
-        </IconButton>
-      )}
-
-      <Searchbar />
-
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
+      <Box sx={{ display: "flex", alignItems: "center", gap: "15px" }}>
+        {clinic.logoUrl !== null && (
+          <Avatar sxImg={{ width: "200px" }} src={clinic.logoUrl} />
+        )}
+        <Typography
+          sx={{
+            fontWeight: 600,
+            fontSize: "1.125rem",
+            lineHeight: 1,
+            marginTop: "3px",
+          }}
+        >
+          {clinic?.name}
+        </Typography>
+      </Box>
       <Stack
         flexGrow={1}
         direction="row"
@@ -53,6 +48,8 @@ export default function Header({ onOpenNav }: Props) {
         justifyContent="flex-end"
         spacing={{ xs: 0.5, sm: 1 }}
       >
+        <Searchbar />
+
         {/* <LanguagePopover /> */}
 
         <NotificationsPopover />
@@ -63,19 +60,16 @@ export default function Header({ onOpenNav }: Props) {
 
         <AccountPopover />
       </Stack>
-    </>
+    </Box>
   );
 
   return (
     <Box
       sx={{
         height: "72px",
-        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+        // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         width: "100%",
         background: "#fff",
-        transition: theme.transitions.create(["height"], {
-          duration: theme.transitions.duration.shorter,
-        }),
       }}
     >
       <Toolbar

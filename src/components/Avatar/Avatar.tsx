@@ -1,7 +1,7 @@
 "use client";
 
-import { OpacityHover } from "@/helpers/constants";
-import { Box } from "@mui/material";
+import { OpacityHover } from "@/common/constants";
+import { Box, Link } from "@mui/material";
 import React from "react";
 
 interface AvatarProps {
@@ -18,10 +18,14 @@ export default function Avatar({
 }: AvatarProps): React.JSX.Element {
   return (
     <Box
-      sx={{ "&:hover": { opacity: OpacityHover }, ...sxBox }}
+      sx={{ "&:hover": { opacity: OpacityHover }, cursor: "pointer", ...sxBox }}
       onClick={onClick}
     >
-      <Box sx={sxImg} component="img" src={src} />
+      <Box
+        sx={{ with: "100%", height: "auto", ...sxImg }}
+        component="img"
+        src={src}
+      />
     </Box>
   );
 }

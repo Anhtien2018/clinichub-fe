@@ -13,7 +13,7 @@ import RouterLink from "next/link";
 import { HEADER } from "../config-layout";
 import HeaderShadow from "./header-shadow";
 import SettingsButton from "./settings-button";
-import { paths } from "@/helpers/constants";
+import { paths } from "@/common/constants";
 import { useOffSetTop } from "@/hooks/use-off-set-top";
 import Logo from "@/components/Logo/Logo";
 

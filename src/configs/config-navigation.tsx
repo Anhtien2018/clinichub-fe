@@ -1,5 +1,5 @@
 import SvgColor from "@/components/svg-color";
-import { paths } from "@/helpers/constants";
+import { paths } from "@/common/constants";
 import { NavSectionInterFace } from "@/types/interface";
 
 const icon = (name: string) => (
@@ -79,13 +79,13 @@ export const dataNav: NavSectionInterFace[] = [
     subheader: "Quản lý",
     items: [
       {
-        title: "Người dùng",
+        title: "Bệnh nhân",
         path: paths.dashboard.dashboard,
         icon: ICONS.user,
         children: [
           { title: "Trang cá nhân", path: paths.dashboard.dashboard },
           { title: "Thành viên", path: paths.dashboard.dashboard },
-          { title: "Danh sách", path: paths.dashboard.dashboard },
+          { title: "Danh sách", path: paths.dashboard.users.index },
           { title: "Thêm người dùng", path: paths.dashboard.dashboard },
           { title: "Sửa người dùng", path: paths.dashboard.dashboard },
           { title: "account", path: paths.dashboard.dashboard },
@@ -96,7 +96,7 @@ export const dataNav: NavSectionInterFace[] = [
         path: paths.dashboard.dashboard,
         icon: ICONS.product,
         children: [
-          { title: "list", path: paths.dashboard.dashboard },
+          { title: "list", path: paths.dashboard.products.index },
           { title: "details", path: paths.dashboard.dashboard },
           { title: "create", path: paths.dashboard.dashboard },
           { title: "edit", path: paths.dashboard.dashboard },

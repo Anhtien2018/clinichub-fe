@@ -10,7 +10,7 @@ export type RefreshTokenMutationVariables = Types.Exact<{
 export type RefreshTokenMutationResponse = { __typename?: "Mutation" } & {
   refreshToken: { __typename?: "LoginResponse" } & Pick<
     Types.LoginResponse,
-    "accessToken" | "deviceId" | "refreshToken" | "role"
+    "accessToken" | "clinicId" | "refreshToken" | "role"
   >;
 };
 
@@ -18,7 +18,7 @@ export const RefreshTokenDocument = gql`
   mutation refreshToken($refreshTokenInput: RefreshTokenInput!) {
     refreshToken(refreshTokenInput: $refreshTokenInput) {
       accessToken
-      deviceId
+      clinicId
       refreshToken
       role
     }

@@ -5,12 +5,12 @@ import { Box, Link, Typography } from "@mui/material";
 import { FieldInput } from "@/components/Field/FieldInput";
 import { ButtonCustom } from "@/components/Button";
 import { StyleGapInput } from "../Sign-In/style";
-import { paths } from "@/helpers/constants";
+import { paths } from "@/common/constants";
 import RouterLink from "next/link";
-import useSignUp from "./hooks/Use-Sign-Up";
+// import useSignUp from "./hooks/Use-Sign-Up";
 
 export default function FormSignUp(): React.ReactElement {
-  const { formik, focusPassword, setFocusPassword } = useSignUp();
+  // const { formik, focusPassword, setFocusPassword } = useSignUp();
   return (
     <Box
       sx={{
@@ -45,7 +45,7 @@ export default function FormSignUp(): React.ReactElement {
             </Link>
           </Typography>
         </Box>
-        <form onSubmit={formik.handleSubmit}>
+        {/* <form onSubmit={formik.handleSubmit}>
           <Box
             sx={{
               display: "flex",
@@ -60,6 +60,7 @@ export default function FormSignUp(): React.ReactElement {
                 placeholder="Họ tên"
                 label=""
                 name="input.fullName"
+                sx={{ borderRadius: "8px" }}
                 value={formik.values.input.fullName ?? ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -76,6 +77,7 @@ export default function FormSignUp(): React.ReactElement {
                 size="small"
                 placeholder="Số điện thoại"
                 label=""
+                sx={{ borderRadius: "8px" }}
                 name="input.phoneNumber"
                 value={formik.values.input.phoneNumber ?? ""}
                 onChange={formik.handleChange}
@@ -90,6 +92,7 @@ export default function FormSignUp(): React.ReactElement {
                 placeholder="Email"
                 label=""
                 name="input.email"
+                sx={{ borderRadius: "8px" }}
                 value={formik.values.input.email ?? ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -108,6 +111,7 @@ export default function FormSignUp(): React.ReactElement {
                 typeInput={focusPassword ? "text" : "password"}
                 size="small"
                 placeholder="Mật khẩu"
+                sx={{ borderRadius: "8px" }}
                 label={""}
                 name="input.password"
                 value={formik.values.input.password ?? ""}
@@ -129,6 +133,7 @@ export default function FormSignUp(): React.ReactElement {
                 placeholder="Mật khẩu"
                 label={""}
                 name="input.confirmPassword"
+                sx={{ borderRadius: "8px" }}
                 value={formik.values.input.password ?? ""}
                 onChange={formik.handleChange}
                 isError={false}
@@ -141,13 +146,14 @@ export default function FormSignUp(): React.ReactElement {
                 background: "#212B36",
                 padding: "11px 0px",
                 borderRadius: "8px",
+                height: "46px",
               }}
               sxText={{ color: "#fff", fontWeight: "600" }}
               variant="outlined"
               text="Đăng ký"
             />
           </Box>
-        </form>
+        </form> */}
       </Box>
     </Box>
   );

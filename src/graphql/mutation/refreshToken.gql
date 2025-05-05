@@ -1,7 +1,7 @@
 mutation refreshToken($refreshTokenInput: RefreshTokenInput!){
     refreshToken(refreshTokenInput: $refreshTokenInput){
         accessToken
-        deviceId
+        clinicId
         refreshToken
         role
     }

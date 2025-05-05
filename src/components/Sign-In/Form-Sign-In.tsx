@@ -6,12 +6,12 @@ import { FieldInput } from "../Field/FieldInput";
 import { ButtonCustom } from "../Button";
 import { StyleGapInput } from "./style";
 import RouterLink from "next/link";
-import { paths } from "@/helpers/constants";
+import { paths } from "@/common/constants";
 import CustomLink from "../Link/CustomLink";
 import useSignIn from "./hooks/Use-Sign-In";
 
 export default function FormSignIn(): React.ReactElement {
-  const { formik, focusPassword, setFocusPassword } = useSignIn();
+  const { formik, focusPassword, setFocusPassword, value } = useSignIn();
 
   return (
     <Box
@@ -65,6 +65,7 @@ export default function FormSignIn(): React.ReactElement {
                 value={formik.values.loginInput.email ?? ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                sx={{ borderRadius: "8px" }}
                 isError={Boolean(
                   formik.touched.loginInput?.email &&
                     formik.errors.loginInput?.email
@@ -86,6 +87,7 @@ export default function FormSignIn(): React.ReactElement {
                 label={""}
                 name="loginInput.password"
                 onChange={formik.handleChange}
+                sx={{ borderRadius: "8px" }}
                 value={formik.values.loginInput.password ?? ""}
                 errorText={formik.errors.loginInput?.password}
                 isError={Boolean(
@@ -100,11 +102,13 @@ export default function FormSignIn(): React.ReactElement {
               </Link>
             </Box>
             <ButtonCustom
+              loading={value}
               type="submit"
               sx={{
                 background: "#212B36",
                 padding: "11px 0px",
                 borderRadius: "8px",
+                height: "46px",
               }}
               sxText={{ color: "#fff", fontWeight: "600" }}
               variant="outlined"

@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useAuthStore } from "@/stores/User/useAuthStore";
-import { paths } from "@/helpers/constants";
+import { paths } from "@/common/constants";
 // hooks
 // routes
 // locales

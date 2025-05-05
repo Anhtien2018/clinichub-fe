@@ -1,9 +1,4 @@
-import {
-  RefreshTokenDocument,
-  type RefreshTokenMutationResponse,
-  type RefreshTokenMutationVariables,
-} from "@/graphql/mutations/refreshToken.generated";
-import { REFRESH_TOKEN_KEY, TOKEN_KEY } from "@/helpers/constants";
+import { REFRESH_TOKEN_KEY, TOKEN_KEY } from "@/common/constants";
 import {
   ApolloClient,
   from,
@@ -19,6 +14,11 @@ import { type Observable } from "@apollo/client/utilities";
 import Cookies from "js-cookie";
 
 import { mutateMetaData } from "@/hooks/UseMetaData";
+import {
+  RefreshTokenDocument,
+  RefreshTokenMutationResponse,
+  RefreshTokenMutationVariables,
+} from "@/graphql/mutation/refreshToken.generated";
 
 export const getNewToken = async (): Promise<string> => {
   const refreshToken = Cookies.get(REFRESH_TOKEN_KEY) || "";

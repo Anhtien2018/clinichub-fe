@@ -6,6 +6,7 @@ import NavSection from "../nav-section/navLeft";
 import Header from "./Components/header";
 import { useBoolean } from "@/hooks/use-boolean";
 import { Icon } from "../icons";
+import CustomBreadcrumbs from "../Breadcrumbs";
 
 export default function AuthLayout({
   children,
@@ -62,7 +63,14 @@ export default function AuthLayout({
             </Grid>
             <Grid size={value ? 11.5 : 10.25}>
               <Header />
-              {children}
+
+              <Box
+                sx={{
+                  padding: "8px 40px 64px 40px",
+                }}
+              >
+                {children}
+              </Box>
             </Grid>
           </Grid>
         </Box>

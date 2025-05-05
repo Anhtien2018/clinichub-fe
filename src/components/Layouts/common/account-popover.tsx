@@ -1,10 +1,11 @@
+"use client";
 import { m } from "framer-motion";
 // @mui
 import { alpha } from "@mui/material/styles";
 
 import IconButton from "@mui/material/IconButton";
 import { Icon } from "@/components/icons";
-import { NoImage } from "@/helpers/constants";
+import { NoImage } from "@/common/constants";
 import { Avatar } from "@/components/Avatar";
 import { usePopover } from "@/components/custom-popover";
 import {
@@ -16,6 +17,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useBoolean } from "@/hooks/use-boolean";
+import { useAuthStore } from "@/stores/User/useAuthStore";
+import { useLogout } from "@/hooks/useLogout";
 
 // const OPTIONS = [
 //   {
@@ -33,6 +36,7 @@ import { useBoolean } from "@/hooks/use-boolean";
 // ];
 
 export default function AccountPopover() {
+  const { handleLogout } = useLogout();
   const popover = usePopover();
   const { value, onToggle } = useBoolean();
   return (
@@ -90,6 +94,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: "dashed" }} />
 
         <MenuItem
+          onClick={handleLogout}
           sx={{ m: 1, fontWeight: "fontWeightBold", color: "error.main" }}
         >
           Đăng xuất

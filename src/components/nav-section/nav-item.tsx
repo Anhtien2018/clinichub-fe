@@ -3,6 +3,7 @@
 import { Box, Link, Typography } from "@mui/material";
 import { childrenNav } from "@/types/interface";
 import RouterLink from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavItemProps {
   data: childrenNav;
@@ -20,6 +21,8 @@ export default function NavItem({
   subItem = false,
 }: NavItemProps) {
   const Wrapper: React.ElementType = subItem && hasChildren ? Box : Link;
+  const pathname = usePathname(); //
+  const isActive = pathname === data.path;
   const commonStyles = {
     ...sx,
     display: "flex",
@@ -31,6 +34,7 @@ export default function NavItem({
     },
     padding: "10px 6px",
     borderRadius: "8px",
+    background: isActive ? "#919EAB14" : "transparent", // 👈 Nếu active thì có nền
     position: "relative",
   };
 

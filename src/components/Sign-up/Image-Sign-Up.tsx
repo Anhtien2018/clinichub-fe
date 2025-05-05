@@ -1,6 +1,6 @@
 "use client";
 
-import { METHODS } from "@/helpers/constants";
+import { METHODS } from "@/common/constants";
 import { Box, Link, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import RouterLink from "next/link";

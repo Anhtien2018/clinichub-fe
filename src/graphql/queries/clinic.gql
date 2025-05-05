@@ -1,0 +1,5 @@
+query clinic($id: String!) {
+  clinic(id: $id) {
+    ...ClinicFragment
+  }
+}

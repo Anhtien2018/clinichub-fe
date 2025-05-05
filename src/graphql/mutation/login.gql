@@ -1,7 +1,7 @@
 mutation login($loginInput: LoginInput!){
     login(loginInput: $loginInput){
         accessToken
-        deviceId
+        clinicId
         refreshToken
         role
     }

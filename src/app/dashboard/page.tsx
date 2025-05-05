@@ -5,7 +5,7 @@ import React from "react";
 
 export const metadata = { title: `Dashboard` } satisfies Metadata;
 
-export default function Dashboard(): React.ReactElement {
+export default function Page(): React.ReactElement {
   return (
     <Box>
       <DashboardContent />

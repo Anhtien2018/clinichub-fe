@@ -10,7 +10,7 @@ export type LoginMutationVariables = Types.Exact<{
 export type LoginMutationResponse = { __typename?: "Mutation" } & {
   login: { __typename?: "LoginResponse" } & Pick<
     Types.LoginResponse,
-    "accessToken" | "deviceId" | "refreshToken" | "role"
+    "accessToken" | "clinicId" | "refreshToken" | "role"
   >;
 };
 
@@ -18,7 +18,7 @@ export const LoginDocument = gql`
   mutation login($loginInput: LoginInput!) {
     login(loginInput: $loginInput) {
       accessToken
-      deviceId
+      clinicId
       refreshToken
       role
     }

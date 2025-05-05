@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useMeLazyQuery } from "@/graphql/queries/me.generated";
 import Cookies from "js-cookie";
 import { useAuthStore } from "@/stores/User/useAuthStore";
-import { TOKEN_KEY } from "@/helpers/constants";
+import { TOKEN_KEY } from "@/common/constants";
 import { User } from "@/graphql/type.interface";
 
 export interface UserProviderProps {
@@ -15,6 +15,7 @@ export function UserProvider({
   children,
 }: UserProviderProps): React.JSX.Element {
   const { setUser, setIsLoading } = useAuthStore();
+  const token = Cookies.get(TOKEN_KEY);
   const [getMe] = useMeLazyQuery({
     onCompleted: (data) => {
       setUser(data.me as User);
@@ -27,7 +28,6 @@ export function UserProvider({
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = Cookies.get(TOKEN_KEY);
       if (token) {
         try {
           await getMe(); // chờ response để onCompleted chạy đúng lúc
@@ -41,7 +41,7 @@ export function UserProvider({
     };
 
     void fetchUser(); // gọi async function trong useEffect
-  }, []);
+  }, [token]);
 
   return <>{children}</>;
 }

@@ -1,0 +1,52 @@
+fragment ClinicFragment on ClinicEntity {
+  address
+  clinicCode
+  createdAt
+  description
+  email
+  id
+  isActive
+  logoUrl
+  name
+  owner {
+    avatarId
+    clinics {
+      address
+      clinicCode
+      createdAt
+      description
+      email
+      id
+      isActive
+      logoUrl
+      name
+      phoneNumber
+      provinceCode
+      provinceName
+      updatedAt
+    }
+    createdAt
+    email
+    fullName
+    id
+    isActive
+    lastLoginAt
+    phoneNumber
+    phonePrefix
+    roles {
+      createdAt
+      description
+      id
+      isActive
+      name
+      updatedAt
+    }
+    updatedAt
+    userType
+    username
+  }
+  phoneNumber
+  provinceCode
+  provinceName
+  updatedAt
+}
