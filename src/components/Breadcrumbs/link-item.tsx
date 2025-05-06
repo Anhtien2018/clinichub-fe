@@ -22,8 +22,8 @@ export default function BreadcrumbsLink({ link, activeLast, disabled }: Props) {
     alignItems: "center",
     color: textPrimary,
     textTransform: "capitalize",
-    fontSize: "0.875rem",
-    fontWeight: 400,
+    fontSize: "1rem",
+    fontWeight: 600,
     display: "inline-flex",
     ...(disabled &&
       !activeLast && {
@@ -65,5 +65,5 @@ export default function BreadcrumbsLink({ link, activeLast, disabled }: Props) {
     );
   }
 
-  return <Box sx={{ ...styles }}> {renderContent} </Box>;
+  return <Box sx={{ ...styles, fontSize: "0.875rem" }}> {renderContent} </Box>;
 }

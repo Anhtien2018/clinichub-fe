@@ -5,8 +5,10 @@ export type UserFragmentFragment = { __typename?: "User" } & Pick<
   Types.User,
   | "avatarId"
   | "createdAt"
+  | "currentClinicId"
   | "email"
   | "fullName"
+  | "fullPhoneNumber"
   | "id"
   | "isActive"
   | "lastLoginAt"
@@ -39,8 +41,10 @@ export type UserFragmentFragment = { __typename?: "User" } & Pick<
                 Types.User,
                 | "avatarId"
                 | "createdAt"
+                | "currentClinicId"
                 | "email"
                 | "fullName"
+                | "fullPhoneNumber"
                 | "id"
                 | "isActive"
                 | "lastLoginAt"
@@ -96,8 +100,10 @@ export const UserFragmentFragmentDoc = gql`
       owner {
         avatarId
         createdAt
+        currentClinicId
         email
         fullName
+        fullPhoneNumber
         id
         isActive
         lastLoginAt
@@ -113,8 +119,10 @@ export const UserFragmentFragmentDoc = gql`
       updatedAt
     }
     createdAt
+    currentClinicId
     email
     fullName
+    fullPhoneNumber
     id
     isActive
     lastLoginAt

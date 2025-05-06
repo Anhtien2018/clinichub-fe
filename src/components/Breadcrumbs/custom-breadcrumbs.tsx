@@ -5,42 +5,21 @@ import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import { usePathname } from "next/navigation";
 
 import LinkItem from "./link-item";
+import { CustomBreadcrumbsProps } from "./types";
 import { textPrimary } from "@/common/color";
 
-// ----------------------------------------------------------------------
-
-interface CustomBreadcrumbsProps {
-  heading?: string;
-  action?: React.ReactNode;
-  moreLink?: string[];
-  activeLast?: boolean;
-  sx?: any;
-}
-
 export default function CustomBreadcrumbs({
+  links,
   action,
   heading,
   moreLink,
-  activeLast = false,
+  activeLast,
   sx,
   ...other
 }: CustomBreadcrumbsProps) {
-  const pathname = usePathname();
-
-  const segments = pathname.split("/").filter((seg) => seg);
-
-  const links = segments.map((seg, index) => {
-    const path = "/" + segments.slice(0, index + 1).join("/");
-    return {
-      name: decodeURIComponent(seg),
-      href: path,
-    };
-  });
-
-  const lastLink = links[links.length - 1]?.name;
+  const lastLink = links[links.length - 1].name;
 
   return (
     <Box sx={{ ...sx }}>
@@ -63,11 +42,11 @@ export default function CustomBreadcrumbs({
           )}
 
           {/* BREADCRUMBS */}
-          {links.length !== 1 && (
+          {!!links.length && (
             <Breadcrumbs separator={<Separator />} {...other}>
               {links.map((link) => (
                 <LinkItem
-                  key={link.name}
+                  key={link.name || ""}
                   link={link}
                   activeLast={activeLast}
                   disabled={link.name === lastLink}
@@ -80,7 +59,8 @@ export default function CustomBreadcrumbs({
         {action && <Box sx={{ flexShrink: 0 }}> {action} </Box>}
       </Stack>
 
-      {!!moreLink?.length && (
+      {/* MORE LINK */}
+      {!!moreLink && (
         <Box sx={{ mt: 2 }}>
           {moreLink.map((href) => (
             <Link

@@ -321,6 +321,8 @@ export type Media = {
   mimetype: Scalars["String"]["output"];
   originalname: Scalars["String"]["output"];
   path: Scalars["String"]["output"];
+  processingError?: Maybe<Scalars["String"]["output"]>;
+  processingStatus?: Maybe<Scalars["String"]["output"]>;
   purpose?: Maybe<Scalars["String"]["output"]>;
   size: Scalars["Float"]["output"];
   type: Scalars["String"]["output"];
@@ -328,6 +330,7 @@ export type Media = {
   uploaderId?: Maybe<Scalars["String"]["output"]>;
   uploaderType?: Maybe<UploaderType>;
   url: Scalars["String"]["output"];
+  variants?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type MediaWithParsedMetadata = {
@@ -341,6 +344,8 @@ export type MediaWithParsedMetadata = {
   originalname: Scalars["String"]["output"];
   parsedMetadata?: Maybe<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
+  processingError?: Maybe<Scalars["String"]["output"]>;
+  processingStatus?: Maybe<Scalars["String"]["output"]>;
   purpose?: Maybe<Scalars["String"]["output"]>;
   size: Scalars["Float"]["output"];
   type: Scalars["String"]["output"];
@@ -348,6 +353,7 @@ export type MediaWithParsedMetadata = {
   uploaderId?: Maybe<Scalars["String"]["output"]>;
   uploaderType?: Maybe<UploaderType>;
   url: Scalars["String"]["output"];
+  variants?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type MedicalExam = {
@@ -418,6 +424,8 @@ export type Mutation = {
   removeServiceOrder: Scalars["Boolean"]["output"];
   removeUser: Scalars["Boolean"]["output"];
   resetPassword: Scalars["Boolean"]["output"];
+  setUserDefaultClinic: Scalars["Boolean"]["output"];
+  switchClinic: LoginResponse;
   systemCreateClinic: ClinicEntity;
   systemRemoveClinic: Scalars["Boolean"]["output"];
   systemUpdateClinic: ClinicEntity;
@@ -565,6 +573,17 @@ export type MutationremoveUserArgs = {
 
 export type MutationresetPasswordArgs = {
   input: VerifyOtpDto;
+};
+
+export type MutationsetUserDefaultClinicArgs = {
+  clinicId: Scalars["String"]["input"];
+};
+
+export type MutationswitchClinicArgs = {
+  deviceId?: InputMaybe<Scalars["String"]["input"]>;
+  deviceInfo?: InputMaybe<Scalars["String"]["input"]>;
+  input: SwitchClinicInput;
+  refreshToken?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type MutationsystemCreateClinicArgs = {
@@ -781,6 +800,7 @@ export type Query = {
   drugs: PaginatedDrugs;
   getDeviceById: DeviceInfoResponse;
   getUserDevices: Array<DeviceInfoResponse>;
+  hasClinicAccess: Scalars["Boolean"]["output"];
   isClinicUser: Scalars["Boolean"]["output"];
   isSystemUser: Scalars["Boolean"]["output"];
   me: User;
@@ -808,6 +828,8 @@ export type Query = {
   systemPaginatedClinics: PaginatedClinics;
   systemUsers: PaginatedUsers;
   user: User;
+  userClinics: Array<ClinicEntity>;
+  userDefaultClinicId?: Maybe<Scalars["String"]["output"]>;
   users: PaginatedUsers;
   usersByRole: PaginatedUsers;
 };
@@ -839,6 +861,10 @@ export type QuerydrugsArgs = {
 
 export type QuerygetDeviceByIdArgs = {
   deviceId: Scalars["String"]["input"];
+};
+
+export type QueryhasClinicAccessArgs = {
+  clinicId: Scalars["String"]["input"];
 };
 
 export type QueryisClinicUserArgs = {
@@ -1032,6 +1058,11 @@ export type ServiceCategory = {
   updatedAt: Scalars["Date"]["output"];
 };
 
+export type SwitchClinicInput = {
+  clinicId: Scalars["String"]["input"];
+  setAsDefault?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
 /** Enum for unit types */
 export enum UnitType {
   /** Đơn vị cơ bản */
@@ -1160,8 +1191,11 @@ export type User = {
   avatarId?: Maybe<Scalars["String"]["output"]>;
   clinics?: Maybe<Array<ClinicEntity>>;
   createdAt: Scalars["Date"]["output"];
+  currentClinicId?: Maybe<Scalars["String"]["output"]>;
+  defaultClinicId?: Maybe<ClinicEntity>;
   email: Scalars["String"]["output"];
   fullName?: Maybe<Scalars["String"]["output"]>;
+  fullPhoneNumber?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["ID"]["output"];
   isActive: Scalars["Boolean"]["output"];
   lastLoginAt?: Maybe<Scalars["Date"]["output"]>;

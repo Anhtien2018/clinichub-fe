@@ -1,5 +1,6 @@
 "use client";
 
+import { textPrimary } from "@/common/color";
 import { createTheme } from "@mui/material/styles";
 
 export const theme = createTheme({
@@ -10,6 +11,11 @@ export const theme = createTheme({
       md: 960, // Tablets
       lg: 1280, // Small desktops
       xl: 1536, // Large desktops
+    },
+  },
+  palette: {
+    primary: {
+      main: textPrimary, // red màu mặc định của MUI
     },
   },
   typography: {

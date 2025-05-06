@@ -13,8 +13,10 @@ fragment UserFragment on User {
     owner {
       avatarId
       createdAt
+      currentClinicId
       email
       fullName
+      fullPhoneNumber
       id
       isActive
       lastLoginAt
@@ -30,8 +32,10 @@ fragment UserFragment on User {
     updatedAt
   }
   createdAt
+  currentClinicId
   email
   fullName
+  fullPhoneNumber
   id
   isActive
   lastLoginAt

@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { PropagateLoader } from "react-spinners";
+import { Icon } from "../icons";
 
 interface ButtonCustomProps {
   text: string;
+  icon?: React.ReactNode;
   onClick?: () => void;
   variant?: "text" | "outlined" | "contained";
   disabled?: boolean;
@@ -13,11 +15,13 @@ interface ButtonCustomProps {
   endIcon?: React.ReactNode;
   sx?: object;
   sxText?: object;
+  sxIcon?: object;
   type?: "button" | "submit" | "reset";
 }
 
 const ButtonCustom: React.FC<ButtonCustomProps> = ({
   text,
+  icon = "",
   onClick,
   variant = "outlined",
   disabled = false,
@@ -52,9 +56,18 @@ const ButtonCustom: React.FC<ButtonCustomProps> = ({
           <PropagateLoader color="#ffffff" size="10" />
         </Box>
       ) : (
-        <Typography sx={{ ...sxText, display: "flex", alignItems: "center" }}>
-          {text}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: icon !== "" ? "5px" : "0px",
+          }}
+        >
+          {icon && icon}
+          <Typography sx={{ ...sxText, display: "flex", alignItems: "center" }}>
+            {text}
+          </Typography>
+        </Box>
       )}
     </Button>
   );

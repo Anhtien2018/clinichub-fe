@@ -420,6 +420,8 @@ type Media {
   mimetype: String!
   originalname: String!
   path: String!
+  processingError: String
+  processingStatus: String
   purpose: String
   size: Float!
   type: String!
@@ -427,6 +429,7 @@ type Media {
   uploaderId: String
   uploaderType: UploaderType
   url: String!
+  variants: String
 }
 
 type MediaWithParsedMetadata {
@@ -439,6 +442,8 @@ type MediaWithParsedMetadata {
   originalname: String!
   parsedMetadata: String
   path: String!
+  processingError: String
+  processingStatus: String
   purpose: String
   size: Float!
   type: String!
@@ -446,6 +451,7 @@ type MediaWithParsedMetadata {
   uploaderId: String
   uploaderType: UploaderType
   url: String!
+  variants: String
 }
 
 type MedicalExam {
@@ -521,6 +527,13 @@ type Mutation {
   removeServiceOrder(orderItemId: ID!): Boolean!
   removeUser(id: ID!): Boolean!
   resetPassword(input: VerifyOtpDto!): Boolean!
+  setUserDefaultClinic(clinicId: String!): Boolean!
+  switchClinic(
+    deviceId: String
+    deviceInfo: String
+    input: SwitchClinicInput!
+    refreshToken: String
+  ): LoginResponse!
   systemCreateClinic(input: CreateClinicInput!): ClinicEntity!
   systemRemoveClinic(id: ID!): Boolean!
   systemUpdateClinic(id: ID!, input: UpdateClinicInput!): ClinicEntity!
@@ -695,6 +708,7 @@ type Query {
   drugs(filter: DrugFilterInput): PaginatedDrugs!
   getDeviceById(deviceId: String!): DeviceInfoResponse!
   getUserDevices: [DeviceInfoResponse!]!
+  hasClinicAccess(clinicId: String!): Boolean!
   isClinicUser(userId: ID!): Boolean!
   isSystemUser(userId: ID!): Boolean!
   me: User!
@@ -731,6 +745,8 @@ type Query {
   systemPaginatedClinics(pagination: PaginationInput): PaginatedClinics!
   systemUsers(pagination: PaginationInput): PaginatedUsers!
   user(id: ID!): User!
+  userClinics: [ClinicEntity!]!
+  userDefaultClinicId: String
   users(pagination: PaginationInput): PaginatedUsers!
   usersByRole(pagination: PaginationInput, role: String!): PaginatedUsers!
 }
@@ -890,6 +906,11 @@ type ServiceCategory {
   Ngày giờ cập nhật bản ghi gần nhất
   """
   updatedAt: Date!
+}
+
+input SwitchClinicInput {
+  clinicId: String!
+  setAsDefault: Boolean = false
 }
 
 """
@@ -1059,8 +1080,11 @@ type User {
   avatarId: String
   clinics: [ClinicEntity!]
   createdAt: Date!
+  currentClinicId: String
+  defaultClinicId: ClinicEntity
   email: String!
   fullName: String
+  fullPhoneNumber: String
   id: ID!
   isActive: Boolean!
   lastLoginAt: Date

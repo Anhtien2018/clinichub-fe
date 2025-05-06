@@ -1,3 +1,5 @@
+import { BreadcrumbsProps } from "@mui/material/Breadcrumbs";
+
 export interface childrenNav {
   title?: string;
   path?: string;
@@ -19,3 +21,25 @@ export interface NavSectionInterFace {
   subheader: string;
   items: NavItemInterFace[];
 }
+
+export type BreadcrumbsLinkProps = {
+  name?: string;
+  href?: string;
+  icon?: React.ReactElement;
+};
+
+export interface CustomBreadcrumbsProps extends BreadcrumbsProps {
+  heading?: string;
+  moreLink?: string[];
+  activeLast?: boolean;
+  action?: React.ReactNode;
+  links: BreadcrumbsLinkProps[];
+}
+
+export type IUserTableFilterValue = string | string[];
+
+export type IUserTableFilters = {
+  name: string;
+  role: string[];
+  status: string;
+};

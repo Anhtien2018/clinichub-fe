@@ -11,8 +11,10 @@ export type MeQueryResponse = { __typename?: "Query" } & {
     Types.User,
     | "avatarId"
     | "createdAt"
+    | "currentClinicId"
     | "email"
     | "fullName"
+    | "fullPhoneNumber"
     | "id"
     | "isActive"
     | "lastLoginAt"
@@ -45,8 +47,10 @@ export type MeQueryResponse = { __typename?: "Query" } & {
                   Types.User,
                   | "avatarId"
                   | "createdAt"
+                  | "currentClinicId"
                   | "email"
                   | "fullName"
+                  | "fullPhoneNumber"
                   | "id"
                   | "isActive"
                   | "lastLoginAt"
