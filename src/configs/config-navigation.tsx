@@ -42,35 +42,35 @@ export const dataNav: NavSectionInterFace[] = [
     subheader: "Tổng quan",
     items: [
       {
-        title: "app",
+        title: "Thống kê",
         path: paths.dashboard.dashboard,
         icon: ICONS.dashboard,
       },
-      {
-        title: "ecommerce",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.ecommerce,
-      },
-      {
-        title: "analytics",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.analytics,
-      },
-      {
-        title: "banking",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.banking,
-      },
-      {
-        title: "booking",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.booking,
-      },
-      {
-        title: "file",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.file,
-      },
+      // {
+      //   title: "ecommerce",
+      //   path: paths.dashboard.dashboard,
+      //   icon: ICONS.ecommerce,
+      // },
+      // {
+      //   title: "analytics",
+      //   path: paths.dashboard.dashboard,
+      //   icon: ICONS.analytics,
+      // },
+      // {
+      //   title: "banking",
+      //   path: paths.dashboard.dashboard,
+      //   icon: ICONS.banking,
+      // },
+      // {
+      //   title: "booking",
+      //   path: paths.dashboard.dashboard,
+      //   icon: ICONS.booking,
+      // },
+      // {
+      //   title: "file",
+      //   path: paths.dashboard.dashboard,
+      //   icon: ICONS.file,
+      // },
     ],
   },
 
@@ -83,82 +83,82 @@ export const dataNav: NavSectionInterFace[] = [
         path: paths.dashboard.dashboard,
         icon: ICONS.user,
         children: [
+          { title: "Danh sách", path: paths.dashboard.users.index },
           { title: "Trang cá nhân", path: paths.dashboard.dashboard },
           { title: "Thành viên", path: paths.dashboard.dashboard },
-          { title: "Danh sách", path: paths.dashboard.users.index },
           { title: "Thêm người dùng", path: paths.dashboard.dashboard },
           { title: "Sửa người dùng", path: paths.dashboard.dashboard },
           { title: "account", path: paths.dashboard.dashboard },
         ],
       },
-      {
-        title: "product",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.product,
-        children: [
-          { title: "list", path: paths.dashboard.products.index },
-          { title: "details", path: paths.dashboard.dashboard },
-          { title: "create", path: paths.dashboard.dashboard },
-          { title: "edit", path: paths.dashboard.dashboard },
-        ],
-      },
+      // {
+      //   title: "product",
+      //   path: paths.dashboard.dashboard,
+      //   icon: ICONS.product,
+      //   children: [
+      //     { title: "list", path: paths.dashboard.products.index },
+      //     { title: "details", path: paths.dashboard.dashboard },
+      //     { title: "create", path: paths.dashboard.dashboard },
+      //     { title: "edit", path: paths.dashboard.dashboard },
+      //   ],
+      // },
     ],
   },
 
   // OTHERS
-  {
-    subheader: "Khác",
-    items: [
-      {
-        title: "item_by_roles",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.lock,
-        roles: ["admin", "manager"],
-        caption: "only_admin_can_see_this_item",
-      },
-      {
-        title: "menu_level",
-        path: "#/dashboard/menu_level",
-        icon: ICONS.menuItem,
-        children: [
-          {
-            title: "menu_level_1a",
-            path: "#/dashboard/menu_level/menu_level_1a",
-          },
-          {
-            title: "menu_level_1b",
-            path: "#/dashboard/menu_level/menu_level_1b",
-          },
-        ],
-      },
-      {
-        title: "item_disabled",
-        path: "#disabled",
-        icon: ICONS.disabled,
-        disabled: true,
-      },
-      {
-        title: "item_label",
-        path: "#label",
-        icon: ICONS.label,
-        // info: <Label color="info">NEW</Label>,
-      },
-      {
-        title: "item_caption",
-        path: "#caption",
-        icon: ICONS.menuItem,
-        // caption: "Một mô tả dài dòng ở đây...",
-      },
-      {
-        title: "item_external_link",
-        path: "https://www.google.com/",
-        icon: ICONS.external,
-      },
-      {
-        title: "blank",
-        path: paths.dashboard.dashboard,
-        icon: ICONS.blank,
-      },
-    ],
-  },
+  // {
+  //   subheader: "Khác",
+  //   items: [
+  //     {
+  //       title: "item_by_roles",
+  //       path: paths.dashboard.dashboard,
+  //       icon: ICONS.lock,
+  //       roles: ["admin", "manager"],
+  //       caption: "only_admin_can_see_this_item",
+  //     },
+  //     {
+  //       title: "menu_level",
+  //       path: "#/dashboard/menu_level",
+  //       icon: ICONS.menuItem,
+  //       children: [
+  //         {
+  //           title: "menu_level_1a",
+  //           path: "#/dashboard/menu_level/menu_level_1a",
+  //         },
+  //         {
+  //           title: "menu_level_1b",
+  //           path: "#/dashboard/menu_level/menu_level_1b",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       title: "item_disabled",
+  //       path: "#disabled",
+  //       icon: ICONS.disabled,
+  //       disabled: true,
+  //     },
+  //     {
+  //       title: "item_label",
+  //       path: "#label",
+  //       icon: ICONS.label,
+  //       // info: <Label color="info">NEW</Label>,
+  //     },
+  //     {
+  //       title: "item_caption",
+  //       path: "#caption",
+  //       icon: ICONS.menuItem,
+  //       // caption: "Một mô tả dài dòng ở đây...",
+  //     },
+  //     {
+  //       title: "item_external_link",
+  //       path: "https://www.google.com/",
+  //       icon: ICONS.external,
+  //     },
+  //     {
+  //       title: "blank",
+  //       path: paths.dashboard.dashboard,
+  //       icon: ICONS.blank,
+  //     },
+  //   ],
+  // },
 ];

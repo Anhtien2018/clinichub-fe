@@ -1,0 +1,14 @@
+query patients($clinicId: String, $pagination: PaginationInput) {
+  patients(clinicId: $clinicId, pagination: $pagination) {
+    items {
+      ...PatientFragment
+    }
+    pageInfo {
+      currentPage
+      hasNextPage
+      hasPreviousPage
+      total
+      totalPages
+    }
+  }
+}

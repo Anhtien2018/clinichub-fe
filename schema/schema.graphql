@@ -136,7 +136,7 @@ input CreateMedicalExamInput {
 
 input CreatePatientInput {
   address: String
-  clinicId: String!
+  clinicId: String
   dateOfBirth: Date
   email: String
   fullName: String!
@@ -543,7 +543,7 @@ type Mutation {
   ): ClinicEntity!
   updateDrug(input: UpdateDrugInput!): Drug!
   updateMedicalExam(input: UpdateMedicalExamInput!): MedicalExam!
-  updatePatient(id: ID!, updatePatientInput: UpdatePatientInput!): Patient!
+  updatePatient(updatePatientInput: UpdatePatientInput!): Patient!
   updatePrescription(input: UpdatePrescriptionInput!): Prescription!
   updateProfile(input: UpdateUserInput!): User!
   updateService(updateServiceInput: UpdateServiceInput!): Service!
@@ -638,6 +638,7 @@ type Patient {
   dateOfBirth: Date
   email: String
   fullName: String!
+  fullPhoneNumber: String
   gender: Gender
   healthInsuranceId: String
   id: ID!
@@ -1011,6 +1012,7 @@ input UpdatePatientInput {
   fullName: String
   gender: Gender
   healthInsuranceId: String
+  id: ID!
   isActive: Boolean
   metadata: MetadataInput
   phoneNumber: String
@@ -1081,7 +1083,7 @@ type User {
   clinics: [ClinicEntity!]
   createdAt: Date!
   currentClinicId: String
-  defaultClinicId: ClinicEntity
+  defaultClinicId: String
   email: String!
   fullName: String
   fullPhoneNumber: String

@@ -1,0 +1,35 @@
+fragment PatientFragment on Patient {
+  address
+  clinic {
+    address
+    clinicCode
+    createdAt
+    description
+    email
+    id
+    isActive
+    logoUrl
+    name
+    phoneNumber
+    provinceCode
+    provinceName
+    updatedAt
+  }
+  clinicId
+  createdAt
+  dateOfBirth
+  email
+  fullName
+  fullPhoneNumber
+  gender
+  healthInsuranceId
+  id
+  isActive
+  metadata {
+    key
+    value
+  }
+  phoneNumber
+  phonePrefix
+  updatedAt
+}

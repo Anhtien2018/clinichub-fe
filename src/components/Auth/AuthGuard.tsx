@@ -20,7 +20,7 @@ export default function AuthGuard({
 
   useEffect(() => {
     if (!isLoading && (!user || error)) {
-      // setShouldRedirect(true);
+      setShouldRedirect(true);
     }
   }, [isLoading, user, error]);
 

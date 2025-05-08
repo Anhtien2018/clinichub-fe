@@ -67,6 +67,8 @@ export default function AuthLayout({
               <Box
                 sx={{
                   padding: "8px 40px 64px 40px",
+                  height: "calc(100dvh - 72px)",
+                  overflowY: "auto",
                 }}
               >
                 {children}

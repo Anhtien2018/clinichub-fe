@@ -127,7 +127,7 @@ export type CreateMedicalExamInput = {
 
 export type CreatePatientInput = {
   address?: InputMaybe<Scalars["String"]["input"]>;
-  clinicId: Scalars["String"]["input"];
+  clinicId?: InputMaybe<Scalars["String"]["input"]>;
   dateOfBirth?: InputMaybe<Scalars["Date"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
   fullName: Scalars["String"]["input"];
@@ -613,7 +613,6 @@ export type MutationupdateMedicalExamArgs = {
 };
 
 export type MutationupdatePatientArgs = {
-  id: Scalars["ID"]["input"];
   updatePatientInput: UpdatePatientInput;
 };
 
@@ -726,6 +725,7 @@ export type Patient = {
   dateOfBirth?: Maybe<Scalars["Date"]["output"]>;
   email?: Maybe<Scalars["String"]["output"]>;
   fullName: Scalars["String"]["output"];
+  fullPhoneNumber?: Maybe<Scalars["String"]["output"]>;
   gender?: Maybe<Gender>;
   healthInsuranceId?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["ID"]["output"];
@@ -1125,6 +1125,7 @@ export type UpdatePatientInput = {
   fullName?: InputMaybe<Scalars["String"]["input"]>;
   gender?: InputMaybe<Gender>;
   healthInsuranceId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["ID"]["input"];
   isActive?: InputMaybe<Scalars["Boolean"]["input"]>;
   metadata?: InputMaybe<MetadataInput>;
   phoneNumber?: InputMaybe<Scalars["String"]["input"]>;
@@ -1192,7 +1193,7 @@ export type User = {
   clinics?: Maybe<Array<ClinicEntity>>;
   createdAt: Scalars["Date"]["output"];
   currentClinicId?: Maybe<Scalars["String"]["output"]>;
-  defaultClinicId?: Maybe<ClinicEntity>;
+  defaultClinicId?: Maybe<Scalars["String"]["output"]>;
   email: Scalars["String"]["output"];
   fullName?: Maybe<Scalars["String"]["output"]>;
   fullPhoneNumber?: Maybe<Scalars["String"]["output"]>;

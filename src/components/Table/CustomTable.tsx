@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, SxProps, Theme } from "@mui/material";
 import {
   DataGrid,
@@ -8,7 +8,6 @@ import {
   GridPaginationModel,
   GridRowSelectionModel,
 } from "@mui/x-data-grid";
-
 import { TableNoData, TablePaginationCustom } from "./";
 
 interface CustomTableProps<T> {
@@ -25,7 +24,7 @@ interface CustomTableProps<T> {
   rowHeight?: number;
   sx?: SxProps<Theme>;
   maxPageSize: number;
-  currentPage: number;
+  currentPage: number; // 1-based
 }
 
 export default function CustomTable<T>({
@@ -42,23 +41,28 @@ export default function CustomTable<T>({
   rowHeight,
   sx,
   maxPageSize,
-  currentPage,
+  currentPage, // 1-based
 }: CustomTableProps<T>): React.JSX.Element {
-  const [selectedIds, setSelectedIds] = useState<GridRowSelectionModel>(
-    [] as unknown as GridRowSelectionModel
-  );
+  // const [selectedIds, setSelectedIds] = useState<GridRowSelectionModel>([]);
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: currentPage,
+    page: currentPage - 1, // chuyển về 0-based
     pageSize: maxPageSize,
   });
 
+  useEffect(() => {
+    // Nếu currentPage (1-based) hoặc maxPageSize thay đổi từ bên ngoài
+    setPaginationModel({
+      page: currentPage - 1,
+      pageSize: maxPageSize,
+    });
+  }, [currentPage, maxPageSize]);
+
   const handlePaginationChange = (model: GridPaginationModel) => {
     setPaginationModel(model);
-    onPageChange(model.page, model.pageSize);
+    onPageChange(model.page + 1, model.pageSize); // truyền về 1-based cho API
   };
 
   const handleRowSelectionChange = (ids: GridRowSelectionModel) => {
-    setSelectedIds(ids);
     handleSelect?.(ids);
   };
 
@@ -69,15 +73,7 @@ export default function CustomTable<T>({
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        position: "relative",
-        overflow: "hidden",
-        maxWidth: "100%",
-        ...sx,
-      }}
-    >
+    <Box sx={{ width: "100%", overflowX: "hidden", ...sx }}>
       <DataGrid
         checkboxSelection={checkboxSelection}
         paginationMode="server"
@@ -85,20 +81,51 @@ export default function CustomTable<T>({
         onPaginationModelChange={handlePaginationChange}
         rowCount={totalCount}
         rowHeight={rowHeight}
+        disableRowSelectionOnClick
         rows={items}
+        sx={{
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "#F4F6F6", // Đặt màu nền cho header
+            borderBottom: "none", // Xóa border dưới cùng của header
+          },
+          "& .MuiDataGrid-columnHeader": {
+            backgroundColor: "#F4F6F6", // Đặt màu nền cho mỗi header của cột
+            border: "none", // Xóa border của từng header cột
+          },
+          "& .MuiDataGrid-columnHeader:focus": {
+            outline: "none", // Xóa outline khi header bị focus
+          },
+          "& .MuiDataGrid-row.Mui-selected": {
+            border: "none",
+            outline: "none",
+          },
+          "& .MuiDataGrid-row.Mui-selected:hover": {
+            border: "none",
+            outline: "none",
+            backgroundColor: "#F4F6F6", // Khi hover và đã chọn row
+          },
+          "& .MuiDataGrid-cell:focus": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-row:focus": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-row:focus-within": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-row.Mui-hover": {
+            backgroundColor: "#F4F6F6", // Màu nền khi hover vào row
+          },
+        }}
         loading={isLoading}
         columns={columnHeaders}
         getRowId={(row) => row.id}
-        // rowSelectionModel={selectedIds}
         hideFooterPagination
         getRowClassName={(params) => className?.(params.row) || ""}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: maxPageSize, page: currentPage },
-          },
-        }}
         onRowSelectionModelChange={handleRowSelectionChange}
-        pageSizeOptions={[10, 20, 50]}
         disableColumnResize
         density="compact"
         slots={{
@@ -118,20 +145,21 @@ export default function CustomTable<T>({
           isRowSelectable ? isRowSelectable(params.row) : true
         }
       />
+
       <TablePaginationCustom
         count={totalCount}
-        page={paginationModel.page}
+        page={paginationModel.page} // 0-based
         rowsPerPage={paginationModel.pageSize}
-        onPageChange={(_, newPage) =>
-          handlePaginationChange({ ...paginationModel, page: newPage })
-        }
-        onRowsPerPageChange={(e) =>
+        onPageChange={(_, newPage) => {
+          handlePaginationChange({ ...paginationModel, page: newPage });
+        }}
+        onRowsPerPageChange={(e) => {
+          const newPageSize = parseInt(e.target.value, 10);
           handlePaginationChange({
             page: 0,
-            pageSize: parseInt(e.target.value, 10),
-          })
-        }
-        onChangeDense={() => {}}
+            pageSize: newPageSize,
+          });
+        }}
       />
     </Box>
   );

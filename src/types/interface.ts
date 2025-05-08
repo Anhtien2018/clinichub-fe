@@ -43,3 +43,9 @@ export type IUserTableFilters = {
   role: string[];
   status: string;
 };
+
+export interface listItem {
+  name: string;
+  icon: string;
+  onClick: () => void;
+}
