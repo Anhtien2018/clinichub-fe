@@ -1,0 +1,8 @@
+mutation createPatient($createPatientInput: CreatePatientInput!) {
+  createPatient(createPatientInput: $createPatientInput) {
+    clinic {
+      ...ClinicFragment
+    }
+    ...PatientFragment
+  }
+}

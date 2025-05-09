@@ -1,2 +1,3 @@
 import { FieldInput } from "./FieldInput";
-export { FieldInput };
+import DatePicker from "./DatePicker";
+export { FieldInput, DatePicker };

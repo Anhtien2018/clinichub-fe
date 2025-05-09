@@ -1,3 +1,5 @@
+import { Option } from "@/types/interface";
+
 export const paths = {
   auth: {
     signIn: "/auth/sign-in",
@@ -8,8 +10,8 @@ export const paths = {
     products: {
       index: "/dashboard/products",
     },
-    users: {
-      index: "/dashboard/users",
+    patients: {
+      index: "/dashboard/patients",
     },
   },
 } as const;
@@ -45,3 +47,17 @@ export const TOKEN_KEY = "token_key";
 export const REFRESH_TOKEN_KEY = "refresh_token";
 export const NoImage = "/assets/images/noImage/no_image.svg";
 export const OpacityHover = 0.8;
+
+export const genderOptions = [
+  { label: "Nữ", value: "FEMALE" },
+  { label: "Nam", value: "MALE" },
+  { label: "Khác", value: "OTHER" },
+  { label: "Không xác định", value: "UNSPECIFIED" },
+] as Option[];
+
+export const listStatus = [
+  { value: "active", label: "Active" },
+  { value: "pending", label: "Pending" },
+  { value: "banned", label: "Banned" },
+  { value: "rejected", label: "Rejected" },
+];

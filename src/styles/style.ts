@@ -1,7 +1,7 @@
 export const backgroundImage = () => {
   return {
     blur: 20,
-    opacity: 0.9,
+    opacity: 1,
     backgroundImage:
       "url(/assets/background/cyan-blur.png), url(/assets/background/red-blur.png)",
     backgroundRepeat: "no-repeat, no-repeat",

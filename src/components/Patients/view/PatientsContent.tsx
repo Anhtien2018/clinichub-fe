@@ -1,20 +1,16 @@
 "use client";
-import StatusFilterTabs from "@/components/Table/FilterStatusTable";
 import { Box, Card } from "@mui/material";
 import React from "react";
-import { useUser } from "../hooks/useUser";
+import { usePatients } from "../hooks/usePatients";
 import UserTableToolbar from "../UserTableToolbar";
 import CustomTable from "@/components/Table/CustomTable";
-import { userColumns } from "@/components/TableColumns/UserColumns";
 import CustomBreadcrumbs from "@/components/Breadcrumbs";
 import { paths } from "@/common/constants";
-import FormAddUser from "../add/FormAddUser";
+import FormAddUser from "../create/CreatePatients";
+import ColumnSelector from "@/components/TableColumns/SelectorColumns";
 
-export default function UsersContent(): React.JSX.Element {
+export default function PatientsContent(): React.JSX.Element {
   const {
-    status,
-    handleFilterStatus,
-    listStatus,
     keyword,
     setKeyword,
     page,
@@ -23,9 +19,13 @@ export default function UsersContent(): React.JSX.Element {
     setPerPage,
     loading,
     rowData,
+    setRowData,
     totalItems,
-  } = useUser();
-  const columns = userColumns();
+    allColumns,
+    setVisibleFields,
+    visibleFields,
+    visibleColumns,
+  } = usePatients();
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "40px" }}>
@@ -39,29 +39,29 @@ export default function UsersContent(): React.JSX.Element {
         <CustomBreadcrumbs
           heading="Bệnh nhân"
           links={[
-            { name: "Thống kê", href: paths.dashboard.users.index },
+            { name: "Thống kê", href: paths.dashboard.patients.index },
             { name: "Danh sách bệnh nhân" },
           ]}
         />
 
-        <FormAddUser />
+        <FormAddUser dataRow={rowData} setDataRow={setRowData} />
       </Box>
-      <Card>
-        <StatusFilterTabs
-          arrStatus={listStatus}
-          selectedStatus={status}
-          onChange={handleFilterStatus}
-        />
+      <Box>
         <UserTableToolbar keyword={keyword} setKeyword={setKeyword} />
+        <ColumnSelector
+          columns={allColumns}
+          selectedFields={visibleFields}
+          onChange={setVisibleFields}
+        />
         <CustomTable
           maxPageSize={perPage}
           currentPage={page}
-          rowHeight={80}
+          rowHeight={60}
           key={JSON.stringify(rowData)}
-          columnHeaders={columns}
+          columnHeaders={visibleColumns}
           isLoading={loading}
           items={rowData}
-          totalCount={totalItems}
+          totalCount={totalItems ?? 0}
           preventActiveCheckBoxFields={["status", ""]}
           handleSelect={(p0) => console.log(p0)}
           onPageChange={function (page: number, pageSize: number): void {
@@ -69,7 +69,7 @@ export default function UsersContent(): React.JSX.Element {
             setPerPage(pageSize);
           }}
         />
-      </Card>
+      </Box>
     </Box>
   );
 }

@@ -83,7 +83,7 @@ export const dataNav: NavSectionInterFace[] = [
         path: paths.dashboard.dashboard,
         icon: ICONS.user,
         children: [
-          { title: "Danh sách", path: paths.dashboard.users.index },
+          { title: "Danh sách", path: paths.dashboard.patients.index },
           { title: "Trang cá nhân", path: paths.dashboard.dashboard },
           { title: "Thành viên", path: paths.dashboard.dashboard },
           { title: "Thêm người dùng", path: paths.dashboard.dashboard },

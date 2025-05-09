@@ -35,7 +35,7 @@ export default function DropDownMoreTable(): React.JSX.Element {
   const popover = usePopover();
 
   return (
-    <Box>
+    <Box sx={{ width: "20px" }}>
       <IconButton onClick={popover.onOpen}>
         <Icon
           sx={{ width: "20px", height: "20px" }}

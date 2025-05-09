@@ -2,10 +2,11 @@
 
 import "@/styles/globals.css";
 import { theme } from "@/themes/theme";
-import { Box, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import ProgressBar from "@/components/ProgessLine/ProgessLine";
 import { ClientApolloProvider } from "@/apollo/ApolloProvider";
 import { UserProvider } from "@/zustand/UserProvider";
+import ToastContainerComponent from "@/components/Toast/ToastMessage";
 
 export default function RootLayout({
   children,
@@ -22,6 +23,7 @@ export default function RootLayout({
           <UserProvider>
             <ProgressBar />
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
+            <ToastContainerComponent />
           </UserProvider>
         </ClientApolloProvider>
       </body>

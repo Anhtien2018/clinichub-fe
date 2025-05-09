@@ -8,7 +8,6 @@ export function useHeader() {
   const [clinic, setClinic] = useState<ClinicEntity>({} as ClinicEntity);
   const [getClinic] = useClinicLazyQuery({
     onCompleted: (data) => {
-      console.log(data);
       setClinic(data.clinic);
     },
     onError(error) {

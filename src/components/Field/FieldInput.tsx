@@ -3,6 +3,8 @@
 import React, { forwardRef, type InputHTMLAttributes } from "react";
 import { Box, TextField, Typography, type AlertColor } from "@mui/material";
 import { defaultStyleInput, errorStyleInput } from "@/styles/StyleInput";
+import { useMediaQuery } from "@mui/material";
+import { theme } from "@/themes/theme";
 
 interface FieldInputProps {
   sx?: object;
@@ -66,6 +68,8 @@ export const FieldInput = forwardRef<HTMLInputElement, FieldInputProps>(
     }: FieldInputProps,
     ref
   ) => {
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
     return (
       <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
         <TextField
@@ -100,7 +104,12 @@ export const FieldInput = forwardRef<HTMLInputElement, FieldInputProps>(
               endAdornment: suffixIcon,
             },
           }}
-          inputProps={{ accept, style: { fontSize: "1.125rem" } }}
+          inputProps={{
+            accept,
+            style: {
+              fontSize: isMobile ? "0.875rem" : "1rem",
+            },
+          }}
           autoComplete={autoComplete}
           disabled={disabled}
           size={size}

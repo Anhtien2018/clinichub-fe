@@ -133,6 +133,23 @@ export default function CustomTable<T>({
           noResultsOverlay: (props) => (
             <TableNoData notFound={true} {...props} />
           ),
+          footer: () => (
+            <TablePaginationCustom
+              count={totalCount}
+              page={paginationModel.page} // 0-based
+              rowsPerPage={paginationModel.pageSize}
+              onPageChange={(_, newPage) => {
+                handlePaginationChange({ ...paginationModel, page: newPage });
+              }}
+              onRowsPerPageChange={(e) => {
+                const newPageSize = parseInt(e.target.value, 10);
+                handlePaginationChange({
+                  page: 0,
+                  pageSize: newPageSize,
+                });
+              }}
+            />
+          ),
         }}
         slotProps={{
           loadingOverlay: {
@@ -144,22 +161,6 @@ export default function CustomTable<T>({
         isRowSelectable={(params) =>
           isRowSelectable ? isRowSelectable(params.row) : true
         }
-      />
-
-      <TablePaginationCustom
-        count={totalCount}
-        page={paginationModel.page} // 0-based
-        rowsPerPage={paginationModel.pageSize}
-        onPageChange={(_, newPage) => {
-          handlePaginationChange({ ...paginationModel, page: newPage });
-        }}
-        onRowsPerPageChange={(e) => {
-          const newPageSize = parseInt(e.target.value, 10);
-          handlePaginationChange({
-            page: 0,
-            pageSize: newPageSize,
-          });
-        }}
       />
     </Box>
   );

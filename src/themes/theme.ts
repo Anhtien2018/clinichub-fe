@@ -114,7 +114,7 @@ export const theme = createTheme({
       },
     },
     caption: {
-      fontSize: "2.125rem",
+      fontSize: "1.125rem",
       lineHeight: 1.3,
       "@media (max-width:600px)": {
         fontSize: "1.3rem",

@@ -4,7 +4,7 @@ import { renderCenterCell } from "../Cell/RenderCell";
 import { formatDateTime } from "@/common/helper";
 import DropDownActionTable from "../DropDown/DropDownActionTable";
 
-export const userColumns = (): GridColDef[] => {
+export const patientsColumns = (): GridColDef[] => {
   return [
     {
       field: "index",
@@ -65,7 +65,7 @@ export const userColumns = (): GridColDef[] => {
       field: "address",
       headerName: "Địa chỉ",
       flex: 1.5,
-      minWidth: 350,
+      minWidth: 400,
       headerClassName: "custom-header",
       renderCell: (params) => renderCenterCell(params.row.address),
     },

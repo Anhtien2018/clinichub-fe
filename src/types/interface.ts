@@ -1,3 +1,4 @@
+import { Gender } from "@/graphql/type.interface";
 import { BreadcrumbsProps } from "@mui/material/Breadcrumbs";
 
 export interface childrenNav {
@@ -48,4 +49,9 @@ export interface listItem {
   name: string;
   icon: string;
   onClick: () => void;
+}
+
+export interface Option {
+  label: string;
+  value: Gender;
 }

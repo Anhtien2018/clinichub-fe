@@ -13,7 +13,7 @@ export const renderCenterCell = (value: string) => (
         color: "text.primary",
         fontSize: "0.95rem",
         fontWeight: 500,
-        textTransform: "capitalize",
+        // textTransform: "capitalize",
       }}
     >
       {value ?? ""}

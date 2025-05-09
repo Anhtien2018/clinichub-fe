@@ -1,7 +1,7 @@
+import { textPrimary } from "@/common/color";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { PropagateLoader } from "react-spinners";
-import { Icon } from "../icons";
 
 interface ButtonCustomProps {
   text: string;
@@ -16,6 +16,7 @@ interface ButtonCustomProps {
   sx?: object;
   sxText?: object;
   sxIcon?: object;
+  size?: string;
   type?: "button" | "submit" | "reset";
 }
 
@@ -32,6 +33,7 @@ const ButtonCustom: React.FC<ButtonCustomProps> = ({
   endIcon,
   sx,
   sxText,
+  size = "10",
 }) => {
   return (
     <Button
@@ -46,6 +48,7 @@ const ButtonCustom: React.FC<ButtonCustomProps> = ({
         "&:hover": { opacity: 0.8 },
         border: "none",
         textTransform: "none",
+        borderRadius: "8px",
         display: "flex",
         alignItems: "center",
         ...sx,
@@ -53,7 +56,7 @@ const ButtonCustom: React.FC<ButtonCustomProps> = ({
     >
       {loading ? (
         <Box sx={{ height: "100%", display: "flex", alignItems: "center" }}>
-          <PropagateLoader color="#ffffff" size="10" />
+          <PropagateLoader color="#ffffff" size={size} />
         </Box>
       ) : (
         <Box
@@ -64,7 +67,15 @@ const ButtonCustom: React.FC<ButtonCustomProps> = ({
           }}
         >
           {icon && icon}
-          <Typography sx={{ ...sxText, display: "flex", alignItems: "center" }}>
+          <Typography
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color: textPrimary,
+              fontWeight: 600,
+              ...sxText,
+            }}
+          >
             {text}
           </Typography>
         </Box>
