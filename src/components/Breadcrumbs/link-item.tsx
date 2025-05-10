@@ -57,7 +57,7 @@ export default function BreadcrumbsLink({ link, activeLast, disabled }: Props) {
       <Link
         component={RouterLink}
         href={href}
-        sx={{ ...styles }}
+        sx={{ ...styles, fontSize: "0.875rem" }}
         underline="none"
       >
         {renderContent}

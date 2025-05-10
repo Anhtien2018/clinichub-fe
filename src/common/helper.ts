@@ -1,3 +1,4 @@
+import { Gender } from "@/graphql/type.interface";
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from "./constants";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -43,5 +44,19 @@ export function formatDateTime(
     return `${hours}:${minutes}:${seconds}, ${day}/${month}/${year}`;
   } else {
     return `${day}/${month}/${year}`;
+  }
+}
+export function generateGenderVi(gender: Gender): string {
+  switch (gender) {
+    case Gender.FEMALE:
+      return "Nữ";
+    case Gender.MALE:
+      return "Nam";
+    case Gender.OTHER:
+      return "Khác";
+    case Gender.UNSPECIFIED:
+      return "Không xác định";
+    default:
+      return "Không rõ";
   }
 }

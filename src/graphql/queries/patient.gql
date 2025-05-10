@@ -1,0 +1,5 @@
+query patient($id: ID!) {
+  patient(id: $id) {
+    ...PatientFragment
+  }
+}

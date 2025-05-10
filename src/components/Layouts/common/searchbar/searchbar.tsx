@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, memo, useCallback } from "react";
+import { useState } from "react";
 // import parse from "autosuggest-highlight/parse";
 // import match from "autosuggest-highlight/match";
 // @mui
@@ -37,10 +37,10 @@ function Searchbar() {
 
   // const navData = useNavData();
 
-  const handleClose = useCallback(() => {
-    search.onFalse();
-    setSearchQuery("");
-  }, [search]);
+  // const handleClose = useCallback(() => {
+  //   search.onFalse();
+  //   setSearchQuery("");
+  // }, [search]);
 
   // const handleKeyDown = (event: KeyboardEvent) => {
   //   if (event.key === "k" && event.metaKey) {
@@ -63,12 +63,12 @@ function Searchbar() {
   //   [handleClose, router]
   // );
 
-  const handleSearch = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setSearchQuery(event.target.value);
-    },
-    []
-  );
+  // const handleSearch = useCallback(
+  //   (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //     setSearchQuery(event.target.value);
+  //   },
+  //   []
+  // );
 
   // const dataFiltered = applyFilter({
   //   inputData: getAllItems({ data: navData }),
@@ -135,7 +135,7 @@ function Searchbar() {
         fullWidth
         maxWidth="sm"
         open={search.value}
-        onClose={handleClose}
+        // onClose={handleClose}
         transitionDuration={{
           enter: theme.transitions.duration.shortest,
           exit: 0,
@@ -158,7 +158,7 @@ function Searchbar() {
             autoFocus
             placeholder="Search..."
             value={searchQuery}
-            onChange={handleSearch}
+            // onChange={handleSearch}
             startAdornment={
               <InputAdornment position="start">
                 <Icon icon="/assets/icons/header/search.svg" />
@@ -182,4 +182,4 @@ function Searchbar() {
   );
 }
 
-export default memo(Searchbar);
+export default Searchbar;

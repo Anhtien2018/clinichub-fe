@@ -1,6 +1,4 @@
-'use client';
-
-import { useCallback, useState } from 'react';
+import { useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -17,17 +15,18 @@ interface ReturnType {
 export function useBoolean(defaultValue?: boolean): ReturnType {
   const [value, setValue] = useState(!!defaultValue);
 
-  const onTrue = useCallback(() => {
+  // Bỏ useCallback, trả về các hàm trực tiếp
+  const onTrue = () => {
     setValue(true);
-  }, []);
+  };
 
-  const onFalse = useCallback(() => {
+  const onFalse = () => {
     setValue(false);
-  }, []);
+  };
 
-  const onToggle = useCallback(() => {
+  const onToggle = () => {
     setValue((prev) => !prev);
-  }, []);
+  };
 
   return {
     value,

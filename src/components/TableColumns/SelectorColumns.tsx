@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FormControlLabel,
   Checkbox,
@@ -42,7 +42,8 @@ export default function ColumnSelector({
           display: "flex",
           alignItems: "center",
           gap: "10px",
-          border: "1px solid #000",
+          border: `1px solid ${textPrimary}`,
+          borderRadius: "8px",
           height: "40px",
           padding: "0 20px",
           cursor: "pointer",
@@ -60,7 +61,7 @@ export default function ColumnSelector({
       <CustomPopover
         open={popover.open}
         onClose={popover.onClose}
-        arrow="right-top"
+        arrow="top-center"
         sx={{
           width: 200,
           color: textPrimary,
@@ -71,6 +72,7 @@ export default function ColumnSelector({
           {columns.map((col) => (
             <FormControlLabel
               key={col.field}
+              sx={{ padding: "0px 10px" }}
               control={
                 <Checkbox
                   checked={selectedFields.includes(col.field)}

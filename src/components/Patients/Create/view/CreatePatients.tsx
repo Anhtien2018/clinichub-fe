@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import { ButtonCustom } from "@/components/Button";
 import AddIcon from "@mui/icons-material/Add";
-import { usePatients } from "../hooks/usePatients";
+import { usePatients } from "../../hooks/usePatients";
 import { DatePicker, FieldInput } from "@/components/Field";
 import { Typography } from "@mui/material";
 import { textPrimary } from "@/common/color";

@@ -25,6 +25,7 @@ interface CustomTableProps<T> {
   sx?: SxProps<Theme>;
   maxPageSize: number;
   currentPage: number; // 1-based
+  onRowClick?: (params: any) => void;
 }
 
 export default function CustomTable<T>({
@@ -42,6 +43,7 @@ export default function CustomTable<T>({
   sx,
   maxPageSize,
   currentPage, // 1-based
+  onRowClick,
 }: CustomTableProps<T>): React.JSX.Element {
   // const [selectedIds, setSelectedIds] = useState<GridRowSelectionModel>([]);
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
@@ -82,8 +84,10 @@ export default function CustomTable<T>({
         rowCount={totalCount}
         rowHeight={rowHeight}
         disableRowSelectionOnClick
+        onRowClick={onRowClick}
         rows={items}
         sx={{
+          cursor: "pointer",
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: "#F4F6F6", // Đặt màu nền cho header
             borderBottom: "none", // Xóa border dưới cùng của header

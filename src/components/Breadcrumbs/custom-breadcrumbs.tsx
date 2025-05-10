@@ -66,7 +66,6 @@ export default function CustomBreadcrumbs({
             <Link
               key={href}
               href={href}
-              variant="body2"
               target="_blank"
               rel="noopener"
               sx={{ display: "table" }}

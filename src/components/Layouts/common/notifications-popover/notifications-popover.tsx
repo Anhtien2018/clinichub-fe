@@ -1,7 +1,7 @@
 "use client";
 
 import { m } from "framer-motion";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 // @mui
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -58,12 +58,9 @@ export default function NotificationsPopover() {
 
   const [currentTab, setCurrentTab] = useState("all");
 
-  const handleChangeTab = useCallback(
-    (event: React.SyntheticEvent, newValue: string) => {
-      setCurrentTab(newValue);
-    },
-    []
-  );
+  const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+    setCurrentTab(newValue);
+  };
 
   //   const [notifications, setNotifications] = useState(_notifications);
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, IconButton, MenuItem } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import CustomPopover, { usePopover } from "../custom-popover";
 import { Icon } from "../icons";
 import { textPrimary } from "@/common/color";

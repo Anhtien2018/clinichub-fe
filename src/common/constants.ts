@@ -12,6 +12,7 @@ export const paths = {
     },
     patients: {
       index: "/dashboard/patients",
+      detail: (id: string) => "/dashboard/patients/" + id,
     },
   },
 } as const;
@@ -47,7 +48,8 @@ export const TOKEN_KEY = "token_key";
 export const REFRESH_TOKEN_KEY = "refresh_token";
 export const NoImage = "/assets/images/noImage/no_image.svg";
 export const OpacityHover = 0.8;
-
+export const avatarDefault = "/assets/images/avatar/avatarDefault.webp";
+export const coverProfile = "/assets/images/cover/cover-4.webp";
 export const genderOptions = [
   { label: "Nữ", value: "FEMALE" },
   { label: "Nam", value: "MALE" },
@@ -60,4 +62,26 @@ export const listStatus = [
   { value: "pending", label: "Pending" },
   { value: "banned", label: "Banned" },
   { value: "rejected", label: "Rejected" },
+];
+export const TABS = [
+  {
+    value: "profile",
+    label: "Thông tin",
+    // icon: <Iconify icon="solar:user-id-bold" width={24} />,
+  },
+  {
+    value: "followers",
+    label: "Phiếu thuốc",
+    // icon: <Iconify icon="solar:heart-bold" width={24} />,
+  },
+  {
+    value: "friends",
+    label: "Lịch sử khám",
+    // icon: <Iconify icon="solar:users-group-rounded-bold" width={24} />,
+  },
+  {
+    value: "gallery",
+    label: "Thư viện ảnh",
+    // icon: <Iconify icon="solar:gallery-wide-bold" width={24} />,
+  },
 ];

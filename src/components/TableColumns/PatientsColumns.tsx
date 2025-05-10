@@ -1,8 +1,9 @@
 import React from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { renderCenterCell } from "../Cell/RenderCell";
-import { formatDateTime } from "@/common/helper";
+import { formatDateTime, generateGenderVi } from "@/common/helper";
 import DropDownActionTable from "../DropDown/DropDownActionTable";
+import { Box } from "@mui/material";
 
 export const patientsColumns = (): GridColDef[] => {
   return [
@@ -50,7 +51,7 @@ export const patientsColumns = (): GridColDef[] => {
       minWidth: 100,
       headerClassName: "custom-header",
       renderCell: (params) =>
-        renderCenterCell(params.row.gender === "FEMALE" ? "Nữ" : "Nam"),
+        renderCenterCell(generateGenderVi(params.row.gender)),
     },
     {
       field: "dateOfBirth",
@@ -85,7 +86,11 @@ export const patientsColumns = (): GridColDef[] => {
       flex: 1.5,
       minWidth: 100,
       headerClassName: "custom-header",
-      renderCell: () => <DropDownActionTable />,
+      renderCell: () => (
+        <Box onClick={(e) => e.stopPropagation()}>
+          <DropDownActionTable />,
+        </Box>
+      ),
     },
   ];
 };

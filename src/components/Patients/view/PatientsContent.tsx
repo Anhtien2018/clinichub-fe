@@ -1,32 +1,33 @@
 "use client";
-import { Box, Card } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import { usePatients } from "../hooks/usePatients";
 import UserTableToolbar from "../UserTableToolbar";
 import CustomTable from "@/components/Table/CustomTable";
 import CustomBreadcrumbs from "@/components/Breadcrumbs";
 import { paths } from "@/common/constants";
-import FormAddUser from "../create/CreatePatients";
-import ColumnSelector from "@/components/TableColumns/SelectorColumns";
+import FormAddUser from "../Create/view/CreatePatients";
+import { useColumnVisibility } from "@/components/TableColumns/hooks/useSelectColumns";
+import { patientsColumns } from "@/components/TableColumns/PatientsColumns";
+import { useRouter } from "next/navigation";
 
 export default function PatientsContent(): React.JSX.Element {
   const {
-    keyword,
-    setKeyword,
     page,
     perPage,
     setPage,
     setPerPage,
     loading,
-    rowData,
-    setRowData,
+    listPatients,
+    setListPatients,
     totalItems,
-    allColumns,
-    setVisibleFields,
-    visibleFields,
-    visibleColumns,
+    Columns,
   } = usePatients();
 
+  const { allColumns, setVisibleFields, visibleColumns, visibleFields } =
+    useColumnVisibility(Columns);
+
+  const router = useRouter();
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "40px" }}>
       <Box
@@ -44,26 +45,30 @@ export default function PatientsContent(): React.JSX.Element {
           ]}
         />
 
-        <FormAddUser dataRow={rowData} setDataRow={setRowData} />
+        <FormAddUser dataRow={listPatients} setDataRow={setListPatients} />
       </Box>
       <Box>
-        <UserTableToolbar keyword={keyword} setKeyword={setKeyword} />
-        <ColumnSelector
-          columns={allColumns}
-          selectedFields={visibleFields}
-          onChange={setVisibleFields}
+        <UserTableToolbar
+          allColumns={allColumns}
+          setVisibleFields={setVisibleFields}
+          visibleFields={visibleFields}
         />
         <CustomTable
           maxPageSize={perPage}
           currentPage={page}
           rowHeight={60}
-          key={JSON.stringify(rowData)}
+          key={JSON.stringify(listPatients)}
           columnHeaders={visibleColumns}
           isLoading={loading}
-          items={rowData}
+          items={listPatients}
           totalCount={totalItems ?? 0}
           preventActiveCheckBoxFields={["status", ""]}
           handleSelect={(p0) => console.log(p0)}
+          onRowClick={(p) => {
+            if (p.id !== "") {
+              router.push(paths.dashboard.patients.detail(p.id));
+            }
+          }}
           onPageChange={function (page: number, pageSize: number): void {
             setPage(page);
             setPerPage(pageSize);
