@@ -46,7 +46,7 @@ const ButtonCustom: React.FC<ButtonCustomProps> = ({
       endIcon={!loading ? endIcon : null}
       sx={{
         "&:hover": { opacity: 0.8 },
-        border: "none",
+        border: `1px solid ${textPrimary}`,
         textTransform: "none",
         borderRadius: "8px",
         display: "flex",

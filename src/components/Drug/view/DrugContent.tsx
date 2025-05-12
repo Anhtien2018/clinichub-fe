@@ -1,43 +1,43 @@
 "use client";
-import { Box } from "@mui/material";
-import React, { useEffect } from "react";
-import { usePatients } from "../hooks/usePatients";
-import UserTableToolbar from "../../TableToolbar/TableToolbar";
-import CustomTable from "@/components/Table/CustomTable";
-import CustomBreadcrumbs from "@/components/Breadcrumbs";
+
 import { paths } from "@/common/constants";
-import FormAddUser from "../Create/view/CreatePatients";
+import CustomBreadcrumbs from "@/components/Breadcrumbs";
+import DialogConfirm from "@/components/Dialog/DialogConfirm";
+import UpdatePatient from "@/components/Patients/Update/view/UpdatePatient";
+import CustomTable from "@/components/Table/CustomTable";
+import TableToolbar from "@/components/TableToolbar/TableToolbar";
+import { Box } from "@mui/material";
+import React, { useMemo } from "react";
+import { useDrugs } from "../hooks/useDrug";
 import { useColumnVisibility } from "@/components/TableColumns/hooks/useSelectColumns";
 import { useRouter } from "next/navigation";
-import UpdatePatient from "../Update/view/UpdatePatient";
-import DialogConfirm from "@/components/Dialog/DialogConfirm";
-import { Drug, Patient } from "@/graphql/type.interface";
+import { Drug } from "@/graphql/type.interface";
 
-export default function PatientsContent(): React.JSX.Element {
+export default function DrugContent(): React.JSX.Element {
   const {
+    listIds,
+    columns,
+    listDrugs,
+    setListIds,
+    openDialog,
     page,
     perPage,
+    setOpenDialog,
     setPage,
     setPerPage,
-    loadingGetPatients,
-    listPatients,
-    listIds,
-    setListIds,
     totalItems,
-    Columns,
-    handleDeletePatient,
-    openDialog,
-    setOpenDialog,
-    loadingDeletePatient,
-  } = usePatients();
-
-  const { allColumns, setVisibleFields, visibleColumns, visibleFields } =
-    useColumnVisibility(Columns);
+    loadingGetDrugs,
+  } = useDrugs();
+  console.log("render DrugContent - listDrugs:", listDrugs);
 
   const router = useRouter();
-
+  const { allColumns, setVisibleFields, visibleColumns, visibleFields } =
+    useColumnVisibility(columns);
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+      {/* {listDrugs.map((item) => (
+        <Box>{item.code}</Box>
+      ))} */}
       <Box
         sx={{
           display: "flex",
@@ -46,31 +46,30 @@ export default function PatientsContent(): React.JSX.Element {
         }}
       >
         <CustomBreadcrumbs
-          heading="Bệnh nhân"
+          heading="Thuốc"
           links={[
             { name: "Thống kê", href: paths.dashboard.patients.index },
-            { name: "Danh sách bệnh nhân" },
+            { name: "Danh sách thuốc" },
           ]}
         />
-
-        <FormAddUser />
       </Box>
 
       <Box>
-        <UserTableToolbar
+        <TableToolbar
           listIds={listIds}
           allColumns={allColumns}
           setVisibleFields={setVisibleFields}
           visibleFields={visibleFields}
         />
+
         <CustomTable
           maxPageSize={perPage}
           currentPage={page}
           rowHeight={60}
-          key={JSON.stringify(listPatients)}
+          // key={JSON.stringify(listDrugs)}
           columnHeaders={visibleColumns}
-          isLoading={loadingGetPatients}
-          items={listPatients}
+          isLoading={loadingGetDrugs}
+          items={listDrugs}
           totalCount={totalItems ?? 0}
           preventActiveCheckBoxFields={["status", ""]}
           handleSelect={(p0) => {
@@ -88,8 +87,9 @@ export default function PatientsContent(): React.JSX.Element {
         />
       </Box>
 
-      <UpdatePatient />
-      <DialogConfirm
+      {/* <UpdatePatient /> */}
+
+      {/* <DialogConfirm
         open={openDialog}
         setOpen={setOpenDialog}
         title="Xóa bệnh nhân"
@@ -97,7 +97,7 @@ export default function PatientsContent(): React.JSX.Element {
         onDelete={handleDeletePatient}
         textAction="Xác nhận xóa"
         loading={loadingDeletePatient}
-      />
+      /> */}
     </Box>
   );
 }

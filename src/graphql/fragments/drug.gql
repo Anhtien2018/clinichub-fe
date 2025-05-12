@@ -1,0 +1,20 @@
+fragment DrugFragment on Drug {
+  baseQuantityRemainder
+  baseUnit
+  baseUnitName
+
+  code
+  conversionRate
+  costPrice
+  createdAt
+  id
+  ingredient
+  isDeleted
+  name
+  packageQuantity
+  packageUnit
+  price
+  quantity
+  stockDisplay
+  updatedAt
+}

@@ -5,7 +5,15 @@ import { formatDateTime, generateGenderVi } from "@/common/helper";
 import DropDownActionTable from "../DropDown/DropDownActionTable";
 import { Box } from "@mui/material";
 
-export const patientsColumns = (): GridColDef[] => {
+interface PatientsColumnsProps {
+  handleEdit?: (id: string) => void;
+  handleDelete?: (id: string) => void;
+}
+
+export const patientsColumns = ({
+  handleEdit,
+  handleDelete,
+}: PatientsColumnsProps): GridColDef[] => {
   return [
     {
       field: "index",
@@ -48,7 +56,7 @@ export const patientsColumns = (): GridColDef[] => {
       field: "gender",
       headerName: "Giới tính",
       flex: 1.5,
-      minWidth: 100,
+      minWidth: 150,
       headerClassName: "custom-header",
       renderCell: (params) =>
         renderCenterCell(generateGenderVi(params.row.gender)),
@@ -86,9 +94,13 @@ export const patientsColumns = (): GridColDef[] => {
       flex: 1.5,
       minWidth: 100,
       headerClassName: "custom-header",
-      renderCell: () => (
+      renderCell: (params) => (
         <Box onClick={(e) => e.stopPropagation()}>
-          <DropDownActionTable />,
+          <DropDownActionTable
+            id={params.row.id}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
         </Box>
       ),
     },

@@ -1,0 +1,14 @@
+query drugs($filter: DrugFilterInput) {
+  drugs(filter: $filter) {
+    items {
+      ...DrugFragment
+    }
+    pageInfo {
+      currentPage
+      hasNextPage
+      hasPreviousPage
+      total
+      totalPages
+    }
+  }
+}

@@ -1,0 +1,5 @@
+query drug($id: ID!) {
+  drug(id: $id) {
+    ...DrugFragment
+  }
+}

@@ -16,23 +16,14 @@ import {
 import React from "react";
 import { useUpdatePatient } from "../hooks/useUpdatePatien";
 
-interface FormUpdatePatientProps {
-  idPatient: string;
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}
-export default function UpdatePatient({
-  idPatient,
-  open,
-  setOpen,
-}: FormUpdatePatientProps): React.JSX.Element {
-  const { formik } = useUpdatePatient({ idPatient });
+export default function UpdatePatient(): React.JSX.Element {
+  const { formik, setOpenEdit, openedEdit, loading } = useUpdatePatient();
+
   return (
     <Dialog
       fullWidth
       maxWidth={false}
-      open={open}
-      // onClose={onToggle}
+      open={openedEdit}
       PaperProps={{
         sx: { maxWidth: 720, ...backgroundImage(), borderRadius: "16px" },
       }}
@@ -147,7 +138,7 @@ export default function UpdatePatient({
             text="Hủy"
             variant="outlined"
             onClick={() => {
-              setOpen(false);
+              setOpenEdit(false);
             }}
           />
 
@@ -159,10 +150,10 @@ export default function UpdatePatient({
               padding: "0px 0px",
             }}
             size="8"
-            text="Xác nhận thêm"
+            text="Cập nhật thông tin"
             sxText={{ color: "#fff " }}
-            // loading={loading}
-            // disabled={loading}
+            loading={loading}
+            disabled={loading}
             type="submit"
             variant="outlined"
           />

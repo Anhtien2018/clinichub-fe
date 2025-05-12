@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Box, SxProps, Theme } from "@mui/material";
 import {
   DataGrid,
@@ -28,9 +26,12 @@ interface CustomTableProps<T> {
   onRowClick?: (params: any) => void;
 }
 
+const MemoTableNoData = React.memo(TableNoData);
+const MemoTablePaginationCustom = React.memo(TablePaginationCustom);
+
 export default function CustomTable<T>({
   columnHeaders,
-  isLoading,
+  isLoading = true,
   checkboxSelection = true,
   items,
   totalCount,
@@ -45,34 +46,64 @@ export default function CustomTable<T>({
   currentPage, // 1-based
   onRowClick,
 }: CustomTableProps<T>): React.JSX.Element {
-  // const [selectedIds, setSelectedIds] = useState<GridRowSelectionModel>([]);
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: currentPage - 1, // chuyển về 0-based
     pageSize: maxPageSize,
   });
 
-  useEffect(() => {
-    // Nếu currentPage (1-based) hoặc maxPageSize thay đổi từ bên ngoài
-    setPaginationModel({
+  const memoizedPaginationModel = useMemo(
+    () => ({
       page: currentPage - 1,
       pageSize: maxPageSize,
-    });
-  }, [currentPage, maxPageSize]);
+    }),
+    [currentPage, maxPageSize]
+  );
 
-  const handlePaginationChange = (model: GridPaginationModel) => {
-    setPaginationModel(model);
-    onPageChange(model.page + 1, model.pageSize); // truyền về 1-based cho API
-  };
-
-  const handleRowSelectionChange = (ids: GridRowSelectionModel) => {
-    handleSelect?.(ids);
-  };
-
-  const handleCellClick = (params: any, event: React.MouseEvent) => {
-    if (preventActiveCheckBoxFields.includes(params.field)) {
-      event.stopPropagation();
+  useEffect(() => {
+    // Chỉ cập nhật khi paginationModel thực sự thay đổi
+    if (
+      paginationModel.page !== memoizedPaginationModel.page ||
+      paginationModel.pageSize !== memoizedPaginationModel.pageSize
+    ) {
+      setPaginationModel(memoizedPaginationModel);
     }
-  };
+  }, [memoizedPaginationModel]);
+
+  const handlePaginationChange = useCallback(
+    (model: GridPaginationModel) => {
+      if (
+        paginationModel.page !== model.page ||
+        paginationModel.pageSize !== model.pageSize
+      ) {
+        setPaginationModel(model);
+        onPageChange(model.page + 1, model.pageSize); // truyền về 1-based cho API
+      }
+    },
+    [paginationModel, onPageChange]
+  );
+
+  const handleRowSelectionChange = useCallback(
+    (ids: GridRowSelectionModel) => {
+      handleSelect?.(ids);
+    },
+    [handleSelect]
+  );
+
+  const handleCellClick = useCallback(
+    (params: any, event: React.MouseEvent) => {
+      if (preventActiveCheckBoxFields.includes(params.field)) {
+        event.stopPropagation();
+      }
+    },
+    [preventActiveCheckBoxFields]
+  );
+
+  const handleRowClickInternal = useCallback(
+    (params: any) => {
+      onRowClick?.(params);
+    },
+    [onRowClick]
+  );
 
   return (
     <Box sx={{ width: "100%", overflowX: "hidden", ...sx }}>
@@ -84,20 +115,20 @@ export default function CustomTable<T>({
         rowCount={totalCount}
         rowHeight={rowHeight}
         disableRowSelectionOnClick
-        onRowClick={onRowClick}
+        onRowClick={handleRowClickInternal}
         rows={items}
         sx={{
           cursor: "pointer",
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "#F4F6F6", // Đặt màu nền cho header
-            borderBottom: "none", // Xóa border dưới cùng của header
+            backgroundColor: "#F4F6F6",
+            borderBottom: "none",
           },
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "#F4F6F6", // Đặt màu nền cho mỗi header của cột
-            border: "none", // Xóa border của từng header cột
+            backgroundColor: "#F4F6F6",
+            border: "none",
           },
           "& .MuiDataGrid-columnHeader:focus": {
-            outline: "none", // Xóa outline khi header bị focus
+            outline: "none",
           },
           "& .MuiDataGrid-row.Mui-selected": {
             border: "none",
@@ -106,7 +137,7 @@ export default function CustomTable<T>({
           "& .MuiDataGrid-row.Mui-selected:hover": {
             border: "none",
             outline: "none",
-            backgroundColor: "#F4F6F6", // Khi hover và đã chọn row
+            backgroundColor: "#F4F6F6",
           },
           "& .MuiDataGrid-cell:focus": {
             outline: "none",
@@ -121,7 +152,7 @@ export default function CustomTable<T>({
             outline: "none",
           },
           "& .MuiDataGrid-row.Mui-hover": {
-            backgroundColor: "#F4F6F6", // Màu nền khi hover vào row
+            backgroundColor: "#F4F6F6",
           },
         }}
         loading={isLoading}
@@ -133,24 +164,23 @@ export default function CustomTable<T>({
         disableColumnResize
         density="compact"
         slots={{
-          noRowsOverlay: (props) => <TableNoData notFound={true} {...props} />,
+          noRowsOverlay: (props) => (
+            <MemoTableNoData notFound={true} {...props} />
+          ),
           noResultsOverlay: (props) => (
-            <TableNoData notFound={true} {...props} />
+            <MemoTableNoData notFound={true} {...props} />
           ),
           footer: () => (
-            <TablePaginationCustom
+            <MemoTablePaginationCustom
               count={totalCount}
-              page={paginationModel.page} // 0-based
+              page={paginationModel.page}
               rowsPerPage={paginationModel.pageSize}
               onPageChange={(_, newPage) => {
                 handlePaginationChange({ ...paginationModel, page: newPage });
               }}
               onRowsPerPageChange={(e) => {
                 const newPageSize = parseInt(e.target.value, 10);
-                handlePaginationChange({
-                  page: 0,
-                  pageSize: newPageSize,
-                });
+                handlePaginationChange({ page: 0, pageSize: newPageSize });
               }}
             />
           ),

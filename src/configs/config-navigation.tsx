@@ -84,24 +84,32 @@ export const dataNav: NavSectionInterFace[] = [
         icon: ICONS.user,
         children: [
           { title: "Danh sách", path: paths.dashboard.patients.index },
-          { title: "Trang cá nhân", path: paths.dashboard.dashboard },
-          { title: "Thành viên", path: paths.dashboard.dashboard },
-          { title: "Thêm người dùng", path: paths.dashboard.dashboard },
-          { title: "Sửa người dùng", path: paths.dashboard.dashboard },
-          { title: "account", path: paths.dashboard.dashboard },
+          // {
+          //   title: "Thông tin cá nhân",
+          //   path: paths.dashboard.patients.detail(""),
+          // },
+          // { title: "Thành viên", path: paths.dashboard.dashboard },
+          // { title: "Thêm người dùng", path: paths.dashboard.dashboard },
+          // { title: "Sửa người dùng", path: paths.dashboard.dashboard },
+          // { title: "account", path: paths.dashboard.dashboard },
         ],
       },
-      // {
-      //   title: "product",
-      //   path: paths.dashboard.dashboard,
-      //   icon: ICONS.product,
-      //   children: [
-      //     { title: "list", path: paths.dashboard.products.index },
-      //     { title: "details", path: paths.dashboard.dashboard },
-      //     { title: "create", path: paths.dashboard.dashboard },
-      //     { title: "edit", path: paths.dashboard.dashboard },
-      //   ],
-      // },
+      {
+        title: "Thuốc",
+        path: paths.dashboard.dashboard,
+        icon: ICONS.user,
+        children: [
+          { title: "Danh sách", path: paths.dashboard.drug.index },
+          // {
+          //   title: "Thông tin cá nhân",
+          //   path: paths.dashboard.patients.detail(""),
+          // },
+          // { title: "Thành viên", path: paths.dashboard.dashboard },
+          // { title: "Thêm người dùng", path: paths.dashboard.dashboard },
+          // { title: "Sửa người dùng", path: paths.dashboard.dashboard },
+          // { title: "account", path: paths.dashboard.dashboard },
+        ],
+      },
     ],
   },
 

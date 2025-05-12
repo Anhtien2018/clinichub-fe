@@ -1,0 +1,5 @@
+mutation updatePatient($updatePatientInput: UpdatePatientInput!) {
+  updatePatient(updatePatientInput: $updatePatientInput) {
+    ...PatientFragment
+  }
+}

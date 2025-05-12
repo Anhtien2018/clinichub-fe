@@ -6,6 +6,10 @@ interface PatientsStore {
   page: number;
   perPage: number;
   listPatients: Patient[];
+  openedEdit: boolean;
+  idPatient: string;
+  totalItems: number;
+  listIds: string[];
 }
 
 interface Action {
@@ -13,6 +17,10 @@ interface Action {
   setKeyword: (keyWord: PatientsStore["keyWord"]) => void;
   setPage: (page: PatientsStore["page"]) => void;
   setPerPage: (perPage: PatientsStore["perPage"]) => void;
+  setOpenEdit: (openedEdit: PatientsStore["openedEdit"]) => void;
+  setIdPatient: (idPatient: PatientsStore["idPatient"]) => void;
+  setTotalItems: (totalItems: PatientsStore["totalItems"]) => void;
+  setListIds: (listIds: PatientsStore["listIds"]) => void;
 }
 
 export const usePatientsStore = create<PatientsStore & Action>()((set) => ({
@@ -24,12 +32,28 @@ export const usePatientsStore = create<PatientsStore & Action>()((set) => ({
   setKeyword: (keyWord) => {
     set(() => ({ keyWord }));
   },
-  page: 1,
+  page: 0,
   setPage: (page) => {
     set(() => ({ page }));
   },
-  perPage: 10,
+  perPage: 25,
   setPerPage: (perPage) => {
     set(() => ({ perPage }));
+  },
+  openedEdit: false,
+  setOpenEdit: (openedEdit) => {
+    set(() => ({ openedEdit }));
+  },
+  idPatient: "",
+  setIdPatient: (idPatient) => {
+    set(() => ({ idPatient }));
+  },
+  totalItems: 0,
+  setTotalItems: (totalItems) => {
+    set(() => ({ totalItems }));
+  },
+  listIds: [],
+  setListIds: (listIds) => {
+    set(() => ({ listIds }));
   },
 }));

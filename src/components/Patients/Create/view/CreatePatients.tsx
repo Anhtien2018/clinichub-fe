@@ -1,4 +1,3 @@
-import * as Yup from "yup";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
@@ -15,18 +14,10 @@ import CustomSelect from "@/components/Field/Select";
 import { genderOptions } from "@/common/constants";
 import { useCreatePatients } from "../hooks/useCreatePatients";
 import { backgroundImage } from "@/styles/style";
-import { Patient } from "@/graphql/type.interface";
 
-interface FormAddUserProps {
-  dataRow: Patient[];
-  setDataRow: (data: Patient[]) => void;
-}
-export default function FormAddUser({
-  dataRow,
-  setDataRow,
-}: FormAddUserProps): React.JSX.Element {
+export default function FormAddUser(): React.JSX.Element {
   const { value, onToggle } = usePatients();
-  const { formik, loading } = useCreatePatients({ dataRow, setDataRow });
+  const { formik, loading } = useCreatePatients();
   return (
     <>
       <ButtonCustom
@@ -49,7 +40,6 @@ export default function FormAddUser({
         fullWidth
         maxWidth={false}
         open={value}
-        // onClose={onToggle}
         PaperProps={{
           sx: { maxWidth: 720, ...backgroundImage(), borderRadius: "16px" },
         }}

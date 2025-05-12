@@ -46,6 +46,14 @@ export function formatDateTime(
     return `${day}/${month}/${year}`;
   }
 }
+export const formatCurrencyVND = (amount: number): string => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+    minimumFractionDigits: 0,
+  }).format(amount);
+};
+
 export function generateGenderVi(gender: Gender): string {
   switch (gender) {
     case Gender.FEMALE:

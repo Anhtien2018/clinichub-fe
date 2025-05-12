@@ -7,7 +7,17 @@ import { Icon } from "../icons";
 import { textPrimary } from "@/common/color";
 import { backgroundImage } from "@/styles/style";
 
-export default function DropDownActionTable(): React.JSX.Element {
+interface DropDownActionTableProps {
+  id: string; // cần id để biết đang thao tác trên dòng nào
+  handleEdit?: (id: string) => void;
+  handleDelete?: (id: string) => void;
+}
+
+export default function DropDownActionTable({
+  id,
+  handleEdit,
+  handleDelete,
+}: DropDownActionTableProps): React.JSX.Element {
   const popover = usePopover();
 
   return (
@@ -24,7 +34,6 @@ export default function DropDownActionTable(): React.JSX.Element {
         arrow="right-top"
         sx={{
           width: 200,
-
           color: textPrimary,
           ...backgroundImage(),
         }}
@@ -32,6 +41,7 @@ export default function DropDownActionTable(): React.JSX.Element {
         <MenuItem
           onClick={() => {
             popover.onClose();
+            handleDelete?.(id); // gọi xóa
           }}
           sx={{
             display: "flex",
@@ -50,6 +60,7 @@ export default function DropDownActionTable(): React.JSX.Element {
         <MenuItem
           onClick={() => {
             popover.onClose();
+            handleEdit?.(id); // gọi chỉnh sửa
           }}
           sx={{
             display: "flex",

@@ -7,8 +7,8 @@ export const paths = {
   },
   dashboard: {
     dashboard: "/dashboard",
-    products: {
-      index: "/dashboard/products",
+    drug: {
+      index: "/dashboard/drug",
     },
     patients: {
       index: "/dashboard/patients",
