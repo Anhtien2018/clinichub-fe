@@ -19,6 +19,7 @@ export function useCreatePatients() {
   const { value, onToggle } = useBoolean();
   const { listPatients, setListPatients, totalItems, setTotalItems } =
     usePatientsStore();
+
   const [createPatients] = useCreatePatientMutation({
     onCompleted(data) {
       if (data.createPatient) {

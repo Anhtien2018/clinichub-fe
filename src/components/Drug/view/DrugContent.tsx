@@ -35,9 +35,6 @@ export default function DrugContent(): React.JSX.Element {
     useColumnVisibility(columns);
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "40px" }}>
-      {/* {listDrugs.map((item) => (
-        <Box>{item.code}</Box>
-      ))} */}
       <Box
         sx={{
           display: "flex",
@@ -56,7 +53,8 @@ export default function DrugContent(): React.JSX.Element {
 
       <Box>
         <TableToolbar
-          listIds={listIds}
+          keyWordLocal=""
+          setKeywordLocal={() => {}}
           allColumns={allColumns}
           setVisibleFields={setVisibleFields}
           visibleFields={visibleFields}
@@ -66,7 +64,6 @@ export default function DrugContent(): React.JSX.Element {
           maxPageSize={perPage}
           currentPage={page}
           rowHeight={60}
-          // key={JSON.stringify(listDrugs)}
           columnHeaders={visibleColumns}
           isLoading={loadingGetDrugs}
           items={listDrugs}

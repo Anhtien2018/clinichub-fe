@@ -1,23 +1,22 @@
-import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import { ButtonCustom } from "@/components/Button";
+import React from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { DatePicker, FieldInput } from "@/components/Field";
-import { Typography } from "@mui/material";
-import { textPrimary } from "@/common/color";
-import CustomSelect from "@/components/Field/Select";
-import { genderOptions } from "@/common/constants";
-import { useCreatePatients } from "../hooks/useCreatePatients";
+import {
+  Alert,
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import { backgroundImage } from "@/styles/style";
-import { useBoolean } from "@/hooks/use-boolean";
+import { useDrug } from "../hooks/useCreateDrug";
+import { FieldInput } from "@/components/Field";
+import { textPrimary } from "@/common/color";
 
-export default function FormCreatePatients(): React.JSX.Element {
-  const { value, onToggle } = useBoolean();
-  const { formik, loading } = useCreatePatients();
+export default function CreateDrug(): React.JSX.Element {
+  const { value, onToggle } = useDrug();
   return (
     <>
       <ButtonCustom
@@ -150,12 +149,12 @@ export default function FormCreatePatients(): React.JSX.Element {
                 sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
               >
                 <Typography>Giới tính</Typography>
-                <CustomSelect
+                {/* <CustomSelect
                   name="gender"
                   value={formik.values.gender ?? ""}
                   onChange={formik.handleChange}
                   options={genderOptions}
-                />
+                /> */}
               </Box>
             </Box>
           </DialogContent>

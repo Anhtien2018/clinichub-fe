@@ -67,19 +67,12 @@ export const usePatients = () => {
     []
   );
 
-  const [getPatients, { loading: loadingGetPatients }] = usePatientsLazyQuery({
-    onCompleted(data) {
-      if (data?.patients) {
-        setListPatients((data.patients.items as Patient[]) || []);
-        setTotalItems(data.patients.pageInfo.total ?? 0);
-      }
-    },
-    onError(error) {
-      console.log(error);
-    },
-  });
+  const [getPatients, { loading: loadingGetPatients }] = usePatientsLazyQuery();
 
   useEffect(() => {
+    if (listPatients.length > 0) {
+      return;
+    }
     void getPatients({
       variables: {
         pagination: {
@@ -88,8 +81,17 @@ export const usePatients = () => {
           search: keyWord,
         },
       },
+      onCompleted(data) {
+        if (data?.patients) {
+          setListPatients((data.patients.items as Patient[]) || []);
+          setTotalItems(data.patients.pageInfo.total ?? 0);
+        }
+      },
+      onError(error) {
+        console.log(error);
+      },
     });
-  }, [page, perPage, keyWord]);
+  }, [getPatients]);
 
   return {
     page,

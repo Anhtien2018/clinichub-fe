@@ -2,7 +2,7 @@
 "use client";
 
 import { paths } from "@/common/constants";
-import { getToken, removeToken } from "@/common/helper";
+import { getToken, removeToken } from "@/common/cookies";
 import { useAuthStore } from "@/stores/User/useAuthStore";
 import { useLogoutMutation } from "@/graphql/mutation/logout.generated";
 import { useRouter } from "next/navigation";

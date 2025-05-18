@@ -1,3 +1,4 @@
+import { MaxSizePage } from "@/common/constants";
 import { Patient } from "@/graphql/type.interface";
 import { create } from "zustand";
 
@@ -10,6 +11,7 @@ interface PatientsStore {
   idPatient: string;
   totalItems: number;
   listIds: string[];
+  openDialog: boolean;
 }
 
 interface Action {
@@ -21,6 +23,7 @@ interface Action {
   setIdPatient: (idPatient: PatientsStore["idPatient"]) => void;
   setTotalItems: (totalItems: PatientsStore["totalItems"]) => void;
   setListIds: (listIds: PatientsStore["listIds"]) => void;
+  setOpenDialog: (openDialog: PatientsStore["openDialog"]) => void;
 }
 
 export const usePatientsStore = create<PatientsStore & Action>()((set) => ({
@@ -32,11 +35,11 @@ export const usePatientsStore = create<PatientsStore & Action>()((set) => ({
   setKeyword: (keyWord) => {
     set(() => ({ keyWord }));
   },
-  page: 0,
+  page: 1,
   setPage: (page) => {
     set(() => ({ page }));
   },
-  perPage: 25,
+  perPage: MaxSizePage,
   setPerPage: (perPage) => {
     set(() => ({ perPage }));
   },
@@ -55,5 +58,9 @@ export const usePatientsStore = create<PatientsStore & Action>()((set) => ({
   listIds: [],
   setListIds: (listIds) => {
     set(() => ({ listIds }));
+  },
+  openDialog: false,
+  setOpenDialog: (openDialog) => {
+    set(() => ({ openDialog }));
   },
 }));

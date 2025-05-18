@@ -1,41 +1,17 @@
 "use client";
+
 import { Box } from "@mui/material";
 import React, { useEffect } from "react";
 import { usePatients } from "../hooks/usePatients";
 import UserTableToolbar from "../../TableToolbar/TableToolbar";
-import CustomTable from "@/components/Table/CustomTable";
 import CustomBreadcrumbs from "@/components/Breadcrumbs";
 import { paths } from "@/common/constants";
-import FormAddUser from "../Create/view/CreatePatients";
-import { useColumnVisibility } from "@/components/TableColumns/hooks/useSelectColumns";
-import { useRouter } from "next/navigation";
 import UpdatePatient from "../Update/view/UpdatePatient";
-import DialogConfirm from "@/components/Dialog/DialogConfirm";
-import { Drug, Patient } from "@/graphql/type.interface";
+import CreatePatients from "../Create/view/CreatePatients";
+import TablePatients from "../TablePatients";
+import DeletePatients from "../Delete/DeletePatients";
 
 export default function PatientsContent(): React.JSX.Element {
-  const {
-    page,
-    perPage,
-    setPage,
-    setPerPage,
-    loadingGetPatients,
-    listPatients,
-    listIds,
-    setListIds,
-    totalItems,
-    Columns,
-    handleDeletePatient,
-    openDialog,
-    setOpenDialog,
-    loadingDeletePatient,
-  } = usePatients();
-
-  const { allColumns, setVisibleFields, visibleColumns, visibleFields } =
-    useColumnVisibility(Columns);
-
-  const router = useRouter();
-
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "40px" }}>
       <Box
@@ -53,51 +29,14 @@ export default function PatientsContent(): React.JSX.Element {
           ]}
         />
 
-        <FormAddUser />
+        <CreatePatients />
       </Box>
 
-      <Box>
-        <UserTableToolbar
-          listIds={listIds}
-          allColumns={allColumns}
-          setVisibleFields={setVisibleFields}
-          visibleFields={visibleFields}
-        />
-        <CustomTable
-          maxPageSize={perPage}
-          currentPage={page}
-          rowHeight={60}
-          key={JSON.stringify(listPatients)}
-          columnHeaders={visibleColumns}
-          isLoading={loadingGetPatients}
-          items={listPatients}
-          totalCount={totalItems ?? 0}
-          preventActiveCheckBoxFields={["status", ""]}
-          handleSelect={(p0) => {
-            setListIds(Array.from(p0.ids) as string[]);
-          }}
-          onRowClick={(p) => {
-            if (p.id !== "") {
-              router.push(paths.dashboard.patients.detail(p.id));
-            }
-          }}
-          onPageChange={function (page: number, pageSize: number): void {
-            setPage(page);
-            setPerPage(pageSize);
-          }}
-        />
-      </Box>
+      <TablePatients />
 
       <UpdatePatient />
-      <DialogConfirm
-        open={openDialog}
-        setOpen={setOpenDialog}
-        title="Xóa bệnh nhân"
-        text="Bạn có chắc chắn muốn xóa bệnh nhân này không? Hành động này không thể hoàn tác."
-        onDelete={handleDeletePatient}
-        textAction="Xác nhận xóa"
-        loading={loadingDeletePatient}
-      />
+
+      <DeletePatients />
     </Box>
   );
 }

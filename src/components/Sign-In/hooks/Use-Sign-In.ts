@@ -7,7 +7,7 @@ import {
   LoginMutationVariables,
   useLoginMutation,
 } from "@/graphql/mutation/login.generated";
-import { setRefreshToken, setToken } from "@/common/helper";
+import { setRefreshToken, setToken } from "@/common/cookies";
 import { useRouter } from "next/navigation";
 import { useBoolean } from "@/hooks/use-boolean";
 

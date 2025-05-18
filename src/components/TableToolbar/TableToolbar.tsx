@@ -6,21 +6,23 @@ import DropDownMoreTable from "../DropDown/DropDownInforTable";
 import { Box, Grid } from "@mui/material";
 import ColumnSelector from "../TableColumns/SelectorColumns";
 import { GridColDef } from "@mui/x-data-grid";
-import { KeywordInput } from "../Patients/SearchPatientsInput";
+import SearchTable from "../Search/SearchTable";
 
-interface UserTableToolbarProps {
+interface TableToolbarProps {
   allColumns: GridColDef[];
   visibleFields: string[];
   setVisibleFields: (value: string[]) => void;
-  listIds?: string[];
+  keyWordLocal: string;
+  setKeywordLocal: (keyword: string) => void;
 }
 
-const UserTableToolbar = React.memo(function UserTableToolbar({
+export default function TableToolbar({
   allColumns,
   setVisibleFields,
   visibleFields,
-  listIds,
-}: UserTableToolbarProps) {
+  keyWordLocal,
+  setKeywordLocal,
+}: TableToolbarProps): React.JSX.Element {
   return (
     <Box sx={{ p: 2, pr: { xs: 2.5, md: 1 } }}>
       <Grid container columnSpacing={2}>
@@ -31,7 +33,10 @@ const UserTableToolbar = React.memo(function UserTableToolbar({
           />
         </Grid>
         <Grid size={9}>
-          <KeywordInput />
+          <SearchTable
+            keyWordLocal={keyWordLocal}
+            setKeywordLocal={setKeywordLocal}
+          />
         </Grid>
         <Grid size={2}>
           <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -46,6 +51,4 @@ const UserTableToolbar = React.memo(function UserTableToolbar({
       </Grid>
     </Box>
   );
-});
-
-export default UserTableToolbar;
+}

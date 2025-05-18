@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback } from "react";
 import { Box, SxProps, Theme } from "@mui/material";
-import {
-  DataGrid,
-  GridColDef,
-  GridPaginationModel,
-  GridRowSelectionModel,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { TableNoData } from ".";
 
 interface CustomTableProps<T> {
   columnHeaders: GridColDef[];
@@ -13,103 +9,120 @@ interface CustomTableProps<T> {
   isLoading: boolean;
   checkboxSelection?: boolean;
   items: T[];
-  totalCount: number;
   handleSelect?: (items: GridRowSelectionModel) => void;
-  onPageChange: (page: number, pageSize: number) => void;
   preventActiveCheckBoxFields?: string[];
-  isRowSelectable?: ((params: T) => boolean) | undefined;
-  rowHeight?: number | undefined;
-  sx?: SxProps<Theme> | undefined;
-  maxPageSize: number;
-  currentPage: number;
-  hideFooterPagination?: boolean;
+  isRowSelectable?: (params: T) => boolean;
+  rowHeight?: number;
+  sx?: SxProps<Theme>;
+  onRowClick?: (params: any) => void;
 }
 
+const MemoTableNoData = React.memo(TableNoData);
+
 export default function CustomTable<T>({
-  columnHeaders = [],
-  isLoading = false,
+  columnHeaders,
+  isLoading = true,
   checkboxSelection = true,
-  items = [],
-  totalCount = 0,
-  onPageChange,
+  items,
   handleSelect,
   className,
   preventActiveCheckBoxFields = [],
   isRowSelectable,
   rowHeight,
   sx,
-  maxPageSize = 10,
-  currentPage = 0,
-  hideFooterPagination = false,
+  onRowClick,
 }: CustomTableProps<T>): React.JSX.Element {
-  const [selectedIds, setSelectedIds] = useState<GridRowSelectionModel>([]);
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: currentPage ?? 0,
-    pageSize: maxPageSize ?? 10,
-  });
+  const handleRowSelectionChange = useCallback(
+    (ids: GridRowSelectionModel) => {
+      handleSelect?.(ids);
+    },
+    [handleSelect]
+  );
 
-  useEffect(() => {
-    setPaginationModel({
-      page: currentPage ?? 0,
-      pageSize: maxPageSize ?? 10,
-    });
-  }, [currentPage, maxPageSize]);
+  const handleCellClick = useCallback(
+    (params: any, event: React.MouseEvent) => {
+      if (preventActiveCheckBoxFields.includes(params.field)) {
+        event.stopPropagation();
+      }
+    },
+    [preventActiveCheckBoxFields]
+  );
+
+  const handleRowClickInternal = useCallback(
+    (params: any) => {
+      onRowClick?.(params);
+    },
+    [onRowClick]
+  );
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        position: "relative",
-        overflow: "hidden",
-        maxWidth: "100%",
-        ...sx,
-      }}
-    >
+    <Box sx={{ width: "100%", overflowX: "hidden", ...sx }}>
       <DataGrid
         checkboxSelection={checkboxSelection}
-        paginationMode="server"
-        paginationModel={paginationModel}
-        onPaginationModelChange={(model) => {
-          const page = model?.page ?? 0;
-          const pageSize = model?.pageSize ?? 10;
-          setPaginationModel({ page, pageSize });
-          onPageChange(page, pageSize);
-        }}
-        rowCount={totalCount}
         rowHeight={rowHeight}
-        rows={items ?? []}
-        loading={isLoading}
-        columns={columnHeaders ?? []}
-        getRowId={(row) => (row as any).id ?? ""}
-        rowSelectionModel={selectedIds}
-        hideFooterPagination={hideFooterPagination}
-        getRowClassName={(params) => className?.(params.row) ?? ""}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              page: currentPage ?? 0,
-              pageSize: maxPageSize ?? 10,
-            },
+        disableRowSelectionOnClick
+        onRowClick={handleRowClickInternal}
+        rows={items}
+        sx={{
+          cursor: "pointer",
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "#F4F6F6",
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-columnHeader": {
+            backgroundColor: "#F4F6F6",
+            border: "none",
+          },
+          "& .MuiDataGrid-columnHeader:focus": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-row.Mui-selected": {
+            border: "none",
+            outline: "none",
+          },
+          "& .MuiDataGrid-row.Mui-selected:hover": {
+            border: "none",
+            outline: "none",
+            backgroundColor: "#F4F6F6",
+          },
+          "& .MuiDataGrid-cell:focus": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-row:focus": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-row:focus-within": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-row.Mui-hover": {
+            backgroundColor: "#F4F6F6",
           },
         }}
-        onRowSelectionModelChange={(ids: GridRowSelectionModel) => {
-          setSelectedIds(ids);
-          handleSelect?.(ids);
-        }}
-        pageSizeOptions={[10, 20, 50]}
+        loading={isLoading}
+        columns={columnHeaders}
+        getRowId={(row) => row.id}
+        getRowClassName={(params) => className?.(params.row) || ""}
+        onRowSelectionModelChange={handleRowSelectionChange}
         disableColumnResize
         density="compact"
+        slots={{
+          noRowsOverlay: (props) => (
+            <MemoTableNoData notFound={true} {...props} />
+          ),
+          noResultsOverlay: (props) => (
+            <MemoTableNoData notFound={true} {...props} />
+          ),
+        }}
         slotProps={{
           loadingOverlay: {
             variant: "skeleton",
             noRowsVariant: "skeleton",
           },
         }}
-        onCellClick={(params, event) => {
-          if (preventActiveCheckBoxFields.includes(params.field)) {
-            event.stopPropagation();
-          }
-        }}
+        onCellClick={handleCellClick}
         isRowSelectable={(params) =>
           isRowSelectable ? isRowSelectable(params.row) : true
         }

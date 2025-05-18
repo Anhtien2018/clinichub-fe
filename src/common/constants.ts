@@ -50,6 +50,8 @@ export const NoImage = "/assets/images/noImage/no_image.svg";
 export const OpacityHover = 0.8;
 export const avatarDefault = "/assets/images/avatar/avatarDefault.webp";
 export const coverProfile = "/assets/images/cover/cover-4.webp";
+export const MaxSizePage = 25;
+
 export const genderOptions = [
   { label: "Nữ", value: "FEMALE" },
   { label: "Nam", value: "MALE" },
